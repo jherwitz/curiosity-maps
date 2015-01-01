@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Curiosity image view</title>
+    <link rel="stylesheet" type="text/css" href="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/styles/images.css"/>
+
+    <script type="text/javascript" src="/scripts/images.js"></script>
+</head>
+
+<body>
+    <div id="close" class="close quietable"></div>
+    <div class="controls <%= images.any? ? "hasimages" : "noimages" %> quietable">
+        <div class="message"> Change image set: </div>
+        <div class="sol">
+            <span class="message">Sol </span><input id="sol" type="text" value="<%= images.any? ? images[0].sol : 0 %>">
+       </div>
+       <div class="camera">
+            <span class="message">Cam </span>
+            <select id="camera" class="cameras">
+                <option value="Mastcam">Mastcam</option>
+                <option value="FrontHazcam">Front Hazcam</option>
+                <option value="LeftNavcam">Left Navcam</option>
+                <option value="RearHazcam">Rear Hazcam</option>
+                <option value="RightNavcam">Right Navcam</option>
+            </select>
+       </div>
+    </div>
+
+    <% if images.any?  %>
+        <img class="snake" src="//s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/snake.gif"/>
+    <% end %>
+
+    <div class="images">
+    <% images.each do |image| %>
+        <div>
+            <img class="image" data-lazy="<%= image.imageUrl %>">
+        </div>
+    <% end %>
+    </div>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.min.js"></script>
+    <script type="text/javascript" src="/scripts/images.js"></script>
+
+    <div class="footer">
+        <% if images.any?  %>
+            <div class="message">
+            Images taken by Curiosity on sol <span class="sollbl"><%= images[0].sol %></span> using camera <span class="cameralbl"><%= images[0].camera %>.</span>
+            </div>
+            <div class="message">
+            Navigate left and right with click-and-drag or the arrow keys.
+            </div>
+        <% else %>
+        <div class="message">
+            No images found for the requested sol and camera.
+        </div>
+        <% end %>  
+
+        <div class="message">
+            Location and image data courtesy NASA/JPL-Caltech. For more information, see the <a href="http://www.jpl.nasa.gov/imagepolicy/">JPL Image Use Policy</a> and the <a href="http://data.nasa.gov/about/">Open NASA Project</a>.
+        </div>
+        <div class="message">
+            See more on <a href="http://www.github.com/jherwitz">Github</a>. (Soon!)
+        </div>
+    </div>
+
+    <script>    
+    setup();
+    $(document).ready(function(){
+        initialize();
+    });
+    </script>
+</body>
+</html>

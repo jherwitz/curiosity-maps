@@ -1,0 +1,102 @@
+/**
+ * This file contains stylesheets used by the main map view. 
+ *
+ * @see http://curiosity-maps.org/
+ */
+
+.labels {
+    color: red;
+    background-color: white;
+    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;     
+    border: 2px solid black;
+    white-space: nowrap;
+}
+
+html { 
+    overflow: hidden; 
+}
+
+body { 
+    overflow: hidden; 
+    padding: 0; 
+    margin: 0;
+    width: 100%;
+    height: 100%; 
+    font-family: Trebuchet MS, Trebuchet, Arial, sans-serif; 
+    background: #f4f4f4;
+}
+
+#map { 
+    position: absolute; 
+    top: 10px; 
+    left: 10px; 
+    right: 10px; 
+    bottom: 15px; 
+    overflow: auto; 
+}
+
+#footer { 
+    position: absolute; 
+    bottom: 0px; 
+    left: 0px; 
+    width:100%; 
+    height: 12px; 
+    overflow: hidden;
+}
+
+@media screen and (max-width: 600px) {
+    #map { 
+        top:0px; 
+        left:0px; 
+        width:100%; 
+        height:100%;
+    }
+}
+
+#header { 
+    background: #fff;
+    box-shadow: 0 1px 3px #CCC; 
+    border: 1px solid #ccc; 
+}
+
+#header h1 { 
+    padding:7px 10px; 
+    margin:0; 
+    font-size: 28px; 
+}
+
+#map { 
+    border: 1px solid #ccc; 
+    box-shadow: 0 1px 3px #CCC; 
+    background-color: #DEDCD7;
+}
+
+.images {
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 2147483647 !important;
+    position: absolute;
+    display: none;
+}
+
+.cameras {
+    position: absolute;
+    right: 80px;
+    top: 23px;
+    z-index: 2147483647 !important;
+}
+
+.about {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    z-index: 2147483647 !important;
+    background: url('http://s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/abouticon.png') no-repeat;
+    cursor: pointer;
+}

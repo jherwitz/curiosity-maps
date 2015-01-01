@@ -1,0 +1,107 @@
+/**
+ * This file contains stylesheets used by the image view.
+ *
+ * @see http://curiosity-maps.org/images/<SOL>/<CAMERA>
+ */
+
+.images {
+    max-width: 100%;
+}
+
+.image {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sollbl {
+    font-weight: bold
+}
+
+.cameralbl {
+    font-style: italic;
+}
+
+.message {
+    color: #606060;
+    font-family: Rockwell, “Courier Bold”, Courier, Georgia, Times, “Times New Roman”, serif;
+}
+
+.button {
+    opacity: 0.25 !important;
+}
+
+body {
+    background-color: #0c0c0c;
+}
+
+.close {
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    right: 20px;
+    z-index: 2147483647 !important;
+    background: url('http://s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/closebutton.png') no-repeat;
+    cursor: pointer;
+    display: none;
+    opacity: 0.7;
+}
+
+.snake {
+    position: fixed;
+    top: 200px;
+    left: 50%;
+    margin-right: -50%;
+    opacity: .3;
+}
+
+.slick-prev{
+    position: fixed;
+    left: 20px;
+    opacity: .5;
+}
+
+.slick-next{
+    position: fixed;
+    right: 20px;
+    opacity: .5;
+}
+
+.controls {
+    position: fixed;
+    width: 177px;
+    height: 75px;
+    border-right: 2px solid #606060;
+    border-bottom: 2px solid #606060;
+    border-left: 2px solid #606060;
+    border-radius: 25px;
+    z-index: 2147483647 !important;
+    opacity: 0.75;
+}
+
+.hasimages {
+    left: 20px;
+}
+
+.noimages {
+    right: 75px;
+}
+
+.controls .sol input{
+    width: 50px;
+    margin-left: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.controls .camera select {
+
+}
+.controls .sol {
+    padding-bottom: 10px;
+}
+
+.controls .message{
+    padding-bottom: 2px;
+    margin-left: 10px;
+    padding-bottom: 5px;
+}
