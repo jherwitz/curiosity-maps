@@ -1,0 +1,13 @@
+
+
+get 1 sample / day, one image per camera
+
+http://mars.jpl.nasa.gov/msl/multimedia/raw/?s=<SOL>&camera=<CAMERA>
+
+SOL \in int
+CAMERA \in {FHAZ_, RHAZ_, NAV_LEFT_, NAV_RIGHT_}
+
+thumbnail
+http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/00844/opgs/edr/ncam/NRB_472432655EDR_F0442414NCAM00320M_-thm.jpg
+TO GET FULL SIZE, JUST REMOVE '-thm' SUFFIX
+
