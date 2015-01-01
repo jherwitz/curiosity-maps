@@ -7,3 +7,13 @@ Name: <TARGET>_<OBSERVER>_<FRAME>
 Cols:
 
 x, y, z, dx, dy, dz, t
+
+
+Landing site (allows maps / spice joining)
+Aeolis Mons:    5° 4′ 48″ S, 137° 51′ 0″ E  (-5.08°, 137.85°)
+Spice landing site w.r.t. IAU_MARS (-2.4899534397800398e+03,  2.2862909493729403e+03, -2.7135571903266100e+02) 
+                                                                    ^--need to convert to polar?
+
+Rover w.r.t. landing site
+landing site w.r.t IAU_MARS
+IAU_MARS w.r.t. martian coordinates

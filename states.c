@@ -118,7 +118,7 @@
    #include <stdio.h>
    #include "SpiceUsr.h"
 
-int main()
+int main(int argc, char *argv[])
 {
 
    /*
@@ -289,7 +289,6 @@ int main()
 
    /* Initialize control variable for the spkezr_c loop. */
    et   = etbeg;
-   cont = SPICETRUE;
    i    = 1;
 
    /*
@@ -300,8 +299,8 @@ int main()
 
    evaluates to true.
    */
-   printf("Results for target \"%s\", observer \"%s\", frame \"%s\"", targ, obs, frame);
-   printf("(t, x, y, z, dx, dy, dz)")
+   printf("Results for target \"%s\", observer \"%s\", frame \"%s\"\n", targ, obs, frame);
+   printf("(t (UTC), x (km), y (km), z (km), dx (km/s), dy (km/s), dz (km/s))\n");
    do
       {
       /*
@@ -319,53 +318,8 @@ int main()
       /* 
       Display the results of the state calculation.
       */
-      printf("")
-
-
-      printf ( "For time %d of %d, the state of:\n", i, maxpts );
-
-      printf ( "Body            : %s\n", targ );
-
-      printf ( "Relative to body: %s\n", obs );
-
-      printf ( "In Frame        : %s\n", frame );
-
-      printf ( "At UTC time     : %s\n", utc );
-
-      puts  (" ");
-      printf( "                 Position (km)              ");
-      printf( "Velocity (km/s)\n"                           );
-      printf( "            -----------------------     "    );
-      printf( "-----------------------\n" );
-
-      printf( "          X: %23.16e     %26.16e\n", state[0],
-                                                    state[3] );
-      printf( "          Y: %23.16e     %26.16e\n", state[1],
-                                                    state[4] );
-      printf( "          Z: %23.16e     %26.16e\n", state[2],
-                                                    state[5] );
-      printf( "  MAGNITUDE: %23.16e     %23.16e\n", 
-                                                vnorm_c(state),
-                                                vnorm_c(state+3) );
-
-      /* One output cycle finished. Continue? */ 
-      puts( " " );
-
-      if ( i < maxpts )
-         {
-         puts ( " " );
-         prompt_c ( "Continue? (Enter Y or N): ", WORD_SIZE, 
-                                                  answer );
-         }
-
-      /*
-      Perform a logical test to see if the user wants to
-      continue. If not, set the value of I to MAXPTS+1.
-      */
-      if ( eqstr_c( "N", answer) )
-         {
-         cont = SPICEFALSE;
-         }
+      printf("(%s, %23.16e, %23.16e, %23.16e, %23.16e, %23.16e, %23.16e)\n", 
+         utc, state[0], state[1], state[2], state[3], state[4], state[5]);
 
       /*
       Increment the current et by delta and increment the loop
@@ -375,7 +329,7 @@ int main()
       i = i + 1;
 
       }
-   while ( i <= maxpts  &&  cont == SPICETRUE );
+   while ( i <= maxpts );
 
 
    /* Finis */
