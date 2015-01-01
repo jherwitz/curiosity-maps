@@ -300,6 +300,8 @@ int main()
 
    evaluates to true.
    */
+   printf("Results for target \"%s\", observer \"%s\", frame \"%s\"", targ, obs, frame);
+   printf("(t, x, y, z, dx, dy, dz)")
    do
       {
       /*
@@ -317,6 +319,9 @@ int main()
       /* 
       Display the results of the state calculation.
       */
+      printf("")
+
+
       printf ( "For time %d of %d, the state of:\n", i, maxpts );
 
       printf ( "Body            : %s\n", targ );

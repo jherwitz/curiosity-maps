@@ -1,5 +1,0 @@
-\begindata
-
-KERNELS_TO_LOAD = ('/Users/Julian/db/msl/mslsp_1000/data/lsk/naif0010.tls', '/Users/Julian/db/msl/mslsp_1000/data/pck/pck00008.tpc', '/Users/Julian/db/msl/mslsp_1000/data/spk/msl_surf_rover_tlm_0000_0089_v1.bsp', '/Users/Julian/db/msl/mslsp_1000/data/fk/msl_v08.tf')
-
-\begintext
