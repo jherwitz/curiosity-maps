@@ -1,0 +1,15 @@
+ 
+Enter the name of a leapseconds kernel file: /Users/Julian/db/msl/mslsp_1000/data/lsk/naif0010.tls
+ 
+/Users/Julian/db/msl/mslsp_1000/data/pck/pck00008.tpc
+
+Enter the name of a binary SPK ephemeris file: /Users/Julian/db/msl/mslsp_1000/data/spk/msl_surf_rover_tlm_0000_0089_v1.bsp
+ 
+Enter the name of the observing body: MARS
+ 
+Enter the name of a target body: MSL
+ 
+Enter the number of states to be calculated: 1
+
+2013-02-28T00:53:03
+
