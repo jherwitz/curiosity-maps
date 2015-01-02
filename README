@@ -29,7 +29,7 @@ List of images
 
 online service:
 
-index.html - loads google maps, plots points
+index.html - loads google maps, plots positions.
 display.html?sol=<SOL>&camera=<CAMERA> - loads from db/cache for that sol and camera
 
 load map
