@@ -1,4 +1,5 @@
 require 'mysql'
+require './image'
 
 # knows how to query tables
 # TODO: caching
@@ -21,15 +22,15 @@ class DatabaseSentinel
     end
 
     def images(sol, camera)
-        if @tableNames[camera].nil? 
+        if @tableNames[camera].nil?
             return []
         end     
-        
+
         results = @client.query("SELECT * FROM images.#{camera} where sol = #{sol}")
 
         images = Array.new
         results.each_hash do |row|
-            images.push(image.initialize(row["imageUrl"], row["timestamp"], row["sol"], camera))
+            images.push(Image.new(row["imageUrl"], row["timestamp"], row["sol"], camera))
         end
 
         return images
