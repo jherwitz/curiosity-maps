@@ -5,8 +5,8 @@ require './image'
 # TODO: caching
 class DatabaseSentinel
 
-    def initialize(host, user, pass, dbname) 
-        @client = Mysql.new(host, user, pass, dbname)
+    def initialize(host, user, pass) 
+        @client = Mysql.new(host, user, pass)
         # query hash for table name to prevent sql injection
         @tableNames = {
             "FrontHazcam" => 1,

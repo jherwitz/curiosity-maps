@@ -16,4 +16,20 @@ class Image
             "camera" => @camera
         }.to_json
     end
+
+    def imageUrl 
+        return @imageUrl
+    end
+
+    def timestamp
+        return @timestamp
+    end
+
+    def sol
+        return @sol
+    end
+
+    def camera
+        return @camera
+    end
 end

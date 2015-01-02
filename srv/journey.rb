@@ -10,12 +10,12 @@ configure do
     jdbc = ARGV[0]
     user = ARGV[1]
     pass = ARGV[2]
-    dbname = ARGV[4]
-    set :sentinel, DatabaseSentinel.new(jdbc, user, pass, dbname)
+    set :gmapsKey, ARGV[3]
+    set :sentinel, DatabaseSentinel.new(jdbc, user, pass)
 end
 
-get '/display/index.html' do
-    erb :index
+get '/' do
+    erb :index, :locals => {:key => settings.gmapsKey}
 end
 
 get '/display/:sol/:camera' do
@@ -26,5 +26,5 @@ get '/display/:sol/:camera' do
     images = settings.sentinel.images(sol, camera)
     logger.info "retrieved #{images.length} images"
 
-    erb :display, :locals => {:images => images.to_json}
+    erb :display, :locals => {:images => images}
 end

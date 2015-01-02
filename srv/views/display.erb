@@ -1,13 +1,40 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>
-            Curiosity location images
-        </title>
+    <title>Curiosity image view</title>
+    <link rel="stylesheet" type="text/css" href="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.css"/>
     </head>
 
     <body>
-        <span>
-            <%= images %>
-        </span>
+
+    <div class="images">
+    <% images.each do |image| %>
+        <img data-lazy="<%= image.imageUrl %>" alt="Curiosity image" title="<%= image.timestamp %>"/>
+    <% end %>
+    </div>
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.images').slick({
+                lazyLoad: 'ondemand',
+                slidesToShow: 3,
+                slidesToScroll: 1
+            });
+        });
+    </script>
+
+
+    <div class="metadata">
+        <% if images.length > 0  %>
+        <p>Images taken by Curisotiy on sol <%= images[0].sol %> using camera <%= images[0].camera %></p>
+        <% else %>
+        <p>No images found for the requested sol and camera.<p>
+        <% end %>
+    </div>
     </body>
 </html>
