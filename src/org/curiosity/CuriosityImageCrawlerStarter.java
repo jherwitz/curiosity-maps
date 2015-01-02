@@ -28,8 +28,12 @@ import java.util.stream.IntStream;
  */
 public class CuriosityImageCrawlerStarter {
 
-    private static final Map<Camera, String> tableNamesByCamera = ImmutableMap.copyOf();
-    private static final String databaseName = "";
+    private static final Map<Camera, String> tableNamesByCamera = ImmutableMap.of(Camera.FrontHazcam, Camera.FrontHazcam.name(),
+                                                                                  Camera.RearHazcam, Camera.RearHazcam.name(),
+                                                                                  Camera.LeftNavcam, Camera.LeftNavcam.name(),
+                                                                                  Camera.RightNavcam, Camera.RightNavcam.name(),
+                                                                                  Camera.Mastcam, Camera.Mastcam.name());
+    private static final String databaseName = "images";
 
     // the latest sol for which any camera has images
     // hardcoded as pages with invalid sols still 200, and we don't want to hammer the site
@@ -110,6 +114,7 @@ public class CuriosityImageCrawlerStarter {
                     });
 
                     publisher = new MySqlPublisher(conn, tableNamesByCamera, databaseName);
+                    break;
                 default:
                     throw new IllegalArgumentException("Unrecognized publisher type: " + publisherType);
             }
@@ -165,19 +170,22 @@ public class CuriosityImageCrawlerStarter {
 
     private static void start(SolDelta solDelta, Set<Camera> cameras, Publisher publisher) {
         Preconditions.checkNotNull(solDelta, "solDelta not null");
-        Preconditions.checkArgument(cameras != null && !cameras.isEmpty(), "camers not null or empty");
+        Preconditions.checkArgument(cameras != null && !cameras.isEmpty(), "cameras not null or empty");
         Preconditions.checkNotNull(publisher, "publisher not null");
 
         WebImageCrawler crawler = new WebImageCrawler();
 
-        //Set<Camera> cameras = Arrays.asList(args).stream().map(Camera::valueOf).collect(Collectors.toSet());
+        System.out.println("Starting image crawl...");
 
         ImmutableList.Builder<Image> images = ImmutableList.builder();
         cameras.parallelStream()
                .forEach(camera -> IntStream.range(solDelta.startSol(), solDelta.endSol())
-                                           .forEach(sol -> images.addAll(crawler.crawl(sol, camera))));
+                                           .forEach(sol -> {
+                                               System.out.printf("Crawling sol:%d camera:%s\n", sol, camera);
+                                               publisher.publish(crawler.crawl(sol, camera));
+                                           }));
 
-        publisher.publish(images.build());
+        System.out.println("Crawl completed!");
     }
 
     private static class SolDelta {

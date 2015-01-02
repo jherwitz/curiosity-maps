@@ -81,6 +81,7 @@ public class MySqlPublisher implements Publisher {
         try {
             int modifiedRows = statement.executeUpdate();
             System.out.println("Updated " + modifiedRows + "rows in table " + table);
+            conn.commit();
         } finally {
             statement.close();
         }

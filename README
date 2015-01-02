@@ -18,6 +18,25 @@ Rover w.r.t. landing site
 landing site w.r.t IAU_MARS
 IAU_MARS w.r.t. martian coordinates
 
-build crawler: java -ea -server -Dsun.net.inetaddr.ttl=0 -Xms512m -Xmx2g
-build ancillary analyzer:
+build crawler: java -ea -server -Dsun.net.inetaddr.ttl=0 -Xms512m -Xmx2g 
+build kernel analyzer:
 
+for each sol:
+Position (average?)
+List of images
+    -sorted by file size?
+
+
+online service:
+
+index.html - loads google maps, plots points
+display.html?sol=<SOL>&camera=<CAMERA> - loads from db/cache for that sol and camera
+
+load map
+plot points
+ON USER EVENT: display shoveler/camera selector (iframe)
+voting system, to rank best/most interesting images (stetch, or something zach can work on etc)
+
+Notice:
+
+Non-commercial, informational use only. All data and assets are property of NASA.
