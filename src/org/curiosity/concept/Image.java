@@ -12,22 +12,22 @@ import java.util.Date;
  */
 public class Image {
 
-    private final Date timestamp;
     private final URL imageUrl;
+    private final Date timestamp;
     private final Camera origin;
 
-    public Image(Date timestamp, URL imageUrl, Camera origin) {
-        this.timestamp = Preconditions.checkNotNull(timestamp);
+    public Image(URL imageUrl, Date timestamp, Camera origin) {
         this.imageUrl = Preconditions.checkNotNull(imageUrl);
+        this.timestamp = Preconditions.checkNotNull(timestamp);
         this.origin = Preconditions.checkNotNull(origin);
-    }
-
-    public Date timestamp() {
-        return timestamp;
     }
 
     public URL imageUrl() {
         return imageUrl;
+    }
+
+    public Date timestamp() {
+        return timestamp;
     }
 
     public Camera origin() {
@@ -36,9 +36,29 @@ public class Image {
 
     @Override
     public String toString() {
-        return String.format("Image [timestamp=%s, url=%s, origin=%s]", timestamp, imageUrl, origin);
+        return String.format("Image [url=%s, timestamp=%s, origin=%s]", imageUrl, timestamp, origin);
     }
 
     @Override
-    public boolean
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(getClass() != obj.getClass()) return false;
+
+        Image that = (Image) obj;
+        if(!imageUrl.toExternalForm().equals(that.imageUrl.toExternalForm())) return false;
+        if(!timestamp.equals(that.timestamp)) return false;
+        if(!origin.equals(that.origin)) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 17;
+        result = prime * result + imageUrl.toExternalForm().hashCode();
+        result = prime * result + timestamp.hashCode();
+        result = prime * result + origin.hashCode();
+        return result;
+    }
 }

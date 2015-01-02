@@ -13,7 +13,8 @@ import java.util.List;
 public interface ImageCrawler {
 
     /**
-     * Crawl images from the specified {@link Camera}, returning a {@link List} of all crawled images.
+     * Crawl images from the specified {@link Camera} and sol, returning a deduplicated
+     * {@link List} of all images found.
      */
-    List<Image> crawl(Camera camera);
+    List<Image> crawl(int sol, Camera camera);
 }

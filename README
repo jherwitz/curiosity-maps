@@ -17,3 +17,7 @@ Spice landing site w.r.t. IAU_MARS (-2.4899534397800398e+03,  2.2862909493729403
 Rover w.r.t. landing site
 landing site w.r.t IAU_MARS
 IAU_MARS w.r.t. martian coordinates
+
+build crawler: java -ea -server -Dsun.net.inetaddr.ttl=0 -Xms512m -Xmx2g
+build ancillary analyzer:
+
