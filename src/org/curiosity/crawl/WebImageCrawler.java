@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import org.curiosity.concept.Camera;
 import org.curiosity.concept.Image;
 import org.curiosity.util.Conversions;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -30,18 +31,15 @@ public class WebImageCrawler {
                                                                        Camera.LeftNavcam, "NAV_LEFT_",
                                                                        Camera.RightNavcam, "NAV_RIGHT_",
                                                                        Camera.Mastcam, "MAST_");
-    // the latest sol for which any camera has images
-    // hardcoded as pages with invalid sols still 200, and we don't want to hammer the site
-    // we should be able to calculate or scrape for it though
-    private final int maxSol = 854;
     private final String selector = "div.RawImageUTC";
     private final int imageListRequestTimeout = 10000; // milliseconds
+    private final long backoffTime = 10000; //TODO: exponential backoff
     private final String spoofUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36";
 
     public List<Image> crawl(int sol, Camera camera) {
         String imageListUri = generateImageListUri(sol, camera);
         Document document = getImageList(imageListUri);
-        return parseImages(document, camera);
+        return parseImages(document, sol, camera);
     }
 
     private String generateImageListUri(int sol, Camera camera) {
@@ -56,11 +54,22 @@ public class WebImageCrawler {
                         .header("User-Agent", spoofUserAgent)
                         .get();
         } catch (IOException e) {
+            if(e instanceof HttpStatusException) {
+                HttpStatusException statusException = (HttpStatusException) e;
+                // sleep for backoffTime if we're asked to slow down
+                if(statusException.getStatusCode() == 503) {
+                    try {
+                        Thread.sleep(backoffTime);
+                    } catch (InterruptedException e1) {
+                        throw new RuntimeException(e1);
+                    }
+                }
+            }
             throw new RuntimeException(e);
         }
     }
 
-    private List<Image> parseImages(Document document, Camera camera) {
+    private List<Image> parseImages(Document document, int sol, Camera camera) {
         Elements captions = document.select(selector);
 
         // use set for dedup
@@ -73,7 +82,7 @@ public class WebImageCrawler {
             String utcTime = info.text().replace("UTC Full Resolution", "").trim();
             Date timestamp = Conversions.fromUTC(utcTime);
 
-            return new Image(imageUrl, timestamp, camera);
+            return new Image(imageUrl, timestamp, sol, camera);
         }).collect(Collectors.toSet());
 
         return ImmutableList.copyOf(images);

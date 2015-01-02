@@ -14,11 +14,13 @@ public class Image {
 
     private final URL imageUrl;
     private final Date timestamp;
+    private final int sol;
     private final Camera origin;
 
-    public Image(URL imageUrl, Date timestamp, Camera origin) {
+    public Image(URL imageUrl, Date timestamp, int sol, Camera origin) {
         this.imageUrl = Preconditions.checkNotNull(imageUrl);
         this.timestamp = Preconditions.checkNotNull(timestamp);
+        this.sol = sol;
         this.origin = Preconditions.checkNotNull(origin);
     }
 
@@ -32,6 +34,10 @@ public class Image {
 
     public Camera origin() {
         return origin;
+    }
+
+    public int sol() {
+        return sol;
     }
 
     @Override

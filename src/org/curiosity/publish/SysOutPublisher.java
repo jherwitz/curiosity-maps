@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class SysOutPublisher implements Publisher {
 
-    public static SysOutPublisher Instance = new SysOutPublisher();
+    public static final SysOutPublisher Instance = new SysOutPublisher();
 
     private SysOutPublisher() { }
 
