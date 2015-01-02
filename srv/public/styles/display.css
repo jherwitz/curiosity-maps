@@ -1,4 +1,25 @@
 .images {
-    width: 1024px;
-    height: 680px;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.image {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sollbl {
+    font-weight: bold
+}
+
+.cameralbl {
+    font-style: italic;
+}
+
+.message {
+    color: white;
+}
+
+body {
+    background-color: #B0B0B0 !important;
 }

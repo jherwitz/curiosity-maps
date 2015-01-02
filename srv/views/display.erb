@@ -1,18 +1,28 @@
-<!DOCTYPE html>
 <html>
     <head>
     <title>Curiosity image view</title>
     <link rel="stylesheet" type="text/css" href="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/styles/display.css"/>
     </head>
 
     <body>
 
+    <center>
+    <div class="message">
+        <% if images.length > 0  %>
+        <p>Images taken by Curiosity on sol <span class="sollbl"><%= images[0].sol %></span> using camera <span class="cameralbl"><%= images[0].camera %></span> Navigate left and right with swipes, the arrow keys, or the arrow buttons.</p>
+        
+        <% else %>
+        <p>No images found for the requested sol and camera.<p>
+        <% end %>
+    </div>
+    </center>
+
     <div class="images">
     <% images.each do |image| %>
-        <img data-lazy="<%= image.imageUrl %>" alt="Curiosity image" title="<%= image.timestamp %>"/>
+        <div><img class="image" title="<%= image.timestamp %> UTC" data-lazy="<%= image.imageUrl %>" ></div>
     <% end %>
     </div>
-
 
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -20,21 +30,25 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            // initialize carousel
             $('.images').slick({
-                lazyLoad: 'ondemand',
-                slidesToShow: 3,
-                slidesToScroll: 1
-            });
+              speed: 300,
+              slidesToShow: 1,
+              adaptiveHeight: true,
+              lazyLoad: 'ondemand'
+          });
         });
     </script>
 
-
-    <div class="metadata">
-        <% if images.length > 0  %>
-        <p>Images taken by Curisotiy on sol <%= images[0].sol %> using camera <%= images[0].camera %></p>
-        <% else %>
-        <p>No images found for the requested sol and camera.<p>
-        <% end %>
+    <div class="message">
+    <div>
+        Images courtesy NASA/JPL-Caltech. For more information, see the <a href="http://www.jpl.nasa.gov/imagepolicy/">JPL Image Use Policy</a>.
     </div>
+    <div>
+        View on <a href="http://www.github.com">Github</a>!
+    </div>
+</div>
+
+
     </body>
 </html>
