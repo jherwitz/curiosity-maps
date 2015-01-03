@@ -1,4 +1,5 @@
 require 'mysql'
+require 'date'
 require './image'
 
 # knows how to query tables
@@ -26,11 +27,14 @@ class DatabaseSentinel
             return []
         end     
 
-        results = @client.query("SELECT * FROM images.#{camera} where sol = #{sol}")
+        results = @client.query("SELECT * FROM images.#{camera} WHERE sol = #{sol} ORDER BY timestamp")
 
         images = Array.new
         results.each_hash do |row|
-            images.push(Image.new(row["imageUrl"], row["timestamp"], row["sol"], camera))
+            # remove milliseconds - ruby expects seconds
+            epochTime = row["timestamp"].to_i / 1000
+            date = DateTime.strptime(epochTime.to_s,'%s')
+            images.push(Image.new(row["imageUrl"], date, row["sol"], camera))
         end
 
         return images

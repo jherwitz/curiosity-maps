@@ -1,6 +1,5 @@
 .images {
-    margin-left: 2%;
-    margin-right: 2%;
+    max-width: 100%;
 }
 
 .image {
@@ -17,9 +16,13 @@
 }
 
 .message {
-    color: white;
+    color: #606060;
+}
+
+.button {
+    opacity: 0.1 !important;
 }
 
 body {
-    background-color: #B0B0B0 !important;
+    background-color: #0c0c0c !important;
 }

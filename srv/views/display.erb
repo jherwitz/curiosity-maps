@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
     <head>
     <title>Curiosity image view</title>
@@ -6,21 +7,11 @@
     </head>
 
     <body>
-
-    <center>
-    <div class="message">
-        <% if images.length > 0  %>
-        <p>Images taken by Curiosity on sol <span class="sollbl"><%= images[0].sol %></span> using camera <span class="cameralbl"><%= images[0].camera %></span> Navigate left and right with swipes, the arrow keys, or the arrow buttons.</p>
-        
-        <% else %>
-        <p>No images found for the requested sol and camera.<p>
-        <% end %>
-    </div>
-    </center>
-
     <div class="images">
     <% images.each do |image| %>
-        <div><img class="image" title="<%= image.timestamp %> UTC" data-lazy="<%= image.imageUrl %>" ></div>
+        <div>
+            <img class="image" title="<%= image.timestamp.strftime("%m/%d/%Y at %I:%M%p UTC") %>" data-lazy="<%= image.imageUrl %>">
+        </div>
     <% end %>
     </div>
 
@@ -32,22 +23,37 @@
         $(document).ready(function(){
             // initialize carousel
             $('.images').slick({
-              speed: 300,
-              slidesToShow: 1,
-              adaptiveHeight: true,
-              lazyLoad: 'ondemand'
-          });
+                arrows: false,
+                speed: 300,
+                slidesToShow: 1,
+                touchThreshold: 25,
+                lazyLoad: 'ondemand'
+            });
+            $('.slick-active').focus();
         });
     </script>
 
+        <% if images.length > 0  %>
+            <div class="message">
+            Images taken by Curiosity on sol <span class="sollbl"><%= images[0].sol %></span> using camera <span class="cameralbl"><%= images[0].camera %>.</span>
+            </div>
+            <div class="message">
+            Navigate left and right with click-and-drag or the arrow keys.
+            </div>
+        <% else %>
+        <div class="message">
+            No images found for the requested sol and camera.
+        </div>
+        <% end %>
+        
+    
+
     <div class="message">
-    <div>
         Images courtesy NASA/JPL-Caltech. For more information, see the <a href="http://www.jpl.nasa.gov/imagepolicy/">JPL Image Use Policy</a>.
     </div>
-    <div>
-        View on <a href="http://www.github.com">Github</a>!
+    <div class="message">
+        See more on <a href="http://www.github.com">Github</a>!
     </div>
-</div>
 
 
     </body>
