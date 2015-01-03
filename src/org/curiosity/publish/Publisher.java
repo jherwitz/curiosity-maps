@@ -1,6 +1,7 @@
 package org.curiosity.publish;
 
 import org.curiosity.concept.Image;
+import org.curiosity.concept.RoverLocation;
 
 import java.util.List;
 
@@ -11,7 +12,12 @@ import java.util.List;
 public interface Publisher {
 
     /**
-     * Publishes a list of images to the durable store.
+     * Publishes a list of {@link Image}s to the durable store.
      */
-    public void publish(List<Image> images);
+    void publishImages(List<Image> images);
+
+    /**
+     * Publishes a list of {@link RoverLocation}s to the durable store.
+     */
+    void publishLocations(List<RoverLocation> locations);
 }

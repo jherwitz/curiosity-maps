@@ -2,7 +2,6 @@ package org.curiosity;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.cli.*;
 import org.curiosity.concept.Camera;
 import org.curiosity.concept.Image;
@@ -11,12 +10,12 @@ import org.curiosity.publish.MySqlPublisher;
 import org.curiosity.publish.Publisher;
 import org.curiosity.publish.PublisherType;
 import org.curiosity.publish.SysOutPublisher;
+import org.curiosity.util.DatabaseInvariants;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,13 +26,6 @@ import java.util.stream.IntStream;
  * @author jherwitz
  */
 public class CuriosityImageCrawlerStarter {
-
-    private static final Map<Camera, String> tableNamesByCamera = ImmutableMap.of(Camera.FrontHazcam, Camera.FrontHazcam.name(),
-                                                                                  Camera.RearHazcam, Camera.RearHazcam.name(),
-                                                                                  Camera.LeftNavcam, Camera.LeftNavcam.name(),
-                                                                                  Camera.RightNavcam, Camera.RightNavcam.name(),
-                                                                                  Camera.Mastcam, Camera.Mastcam.name());
-    private static final String databaseName = "images";
 
     // the latest sol for which any camera has images
     // hardcoded as pages with invalid sols still 200, and we don't want to hammer the site
@@ -102,7 +94,7 @@ public class CuriosityImageCrawlerStarter {
                     String password = cmd.getOptionValue("pass");
                     String jdbc = cmd.getOptionValue("jdbc");
 
-                    Connection conn = dbConnection(username, password, jdbc);
+                    Connection conn = DatabaseInvariants.newConnection(username, password, jdbc);
                     Runtime.getRuntime().addShutdownHook(new Thread() {
                         public void run() {
                             try {
@@ -113,7 +105,7 @@ public class CuriosityImageCrawlerStarter {
                         }
                     });
 
-                    publisher = new MySqlPublisher(conn, tableNamesByCamera, databaseName);
+                    publisher = new MySqlPublisher(conn);
                     break;
                 default:
                     throw new IllegalArgumentException("Unrecognized publisher type: " + publisherType);
@@ -158,16 +150,6 @@ public class CuriosityImageCrawlerStarter {
         System.exit(1);
     }
 
-    private static Connection dbConnection(String username, String password, String jdbc) {
-        try {
-            Connection conn = DriverManager.getConnection(jdbc, username, password);
-            conn.setAutoCommit(false);
-            return conn;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private static void start(SolDelta solDelta, Set<Camera> cameras, Publisher publisher) {
         Preconditions.checkNotNull(solDelta, "solDelta not null");
         Preconditions.checkArgument(cameras != null && !cameras.isEmpty(), "cameras not null or empty");
@@ -182,7 +164,11 @@ public class CuriosityImageCrawlerStarter {
                .forEach(camera -> IntStream.range(solDelta.startSol(), solDelta.endSol())
                                            .forEach(sol -> {
                                                System.out.printf("Crawling sol:%d camera:%s\n", sol, camera);
-                                               publisher.publish(crawler.crawl(sol, camera));
+                                               try {
+                                                   publisher.publishImages(crawler.crawl(sol, camera));
+                                               } catch (Throwable t) {
+                                                   t.printStackTrace();
+                                               }
                                            }));
 
         System.out.println("Crawl completed!");

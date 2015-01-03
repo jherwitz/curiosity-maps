@@ -19,7 +19,7 @@ public class SysOutPublisher implements Publisher {
     private SysOutPublisher() { }
 
     @Override
-    public void publish(List<Image> images) {
+    public void publishImages(List<Image> images) {
         Multimap<Camera, Image> imagesByCamera = HashMultimap.create();
         images.forEach(image -> imagesByCamera.put(image.origin(), image));
         imagesByCamera.keySet().forEach(cameraType -> {

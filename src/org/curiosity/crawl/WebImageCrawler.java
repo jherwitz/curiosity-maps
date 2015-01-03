@@ -76,7 +76,6 @@ public class WebImageCrawler {
         Set<Image> images = captions.stream().map(info -> {
 
             String imageSrc = info.select("a").attr("href");
-            // remove -thm if present so we get the full resolution image
             URL imageUrl = Conversions.fromString(imageSrc);
 
             String utcTime = info.text().replace("UTC Full Resolution", "").trim();
