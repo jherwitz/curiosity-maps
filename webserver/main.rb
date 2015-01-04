@@ -2,7 +2,7 @@
 
 require 'rubygems'
 require 'sinatra'
-require './db-sentinel'
+require './classes/db-sentinel'
 
 # run at startup
 configure do 
@@ -20,13 +20,13 @@ get '/' do
     logger.info "Retrieved locations for #{locations.length} martian days"
 
     logger.info "Querying database for camera mask"
-    lookupTable = Hash.new
+    cameraCoverage = Hash.new
     settings.sentinel.tableNames.keys.each do |camera|
-        lookupTable.store(camera, settings.sentinel.lookupTable(camera))
+        cameraCoverage.store(camera, settings.sentinel.coverage(camera))
     end
     logger.info "Mask constructed"
 
-    erb :map, :locals => {:apikey => settings.apikey, :locations => locations, :lookupTable => lookupTable}
+    erb :map, :locals => {:apikey => settings.apikey, :locations => locations, :cameraCoverage => cameraCoverage}
 end
 
 get '/images/:sol/:camera' do
@@ -37,5 +37,5 @@ get '/images/:sol/:camera' do
     images = settings.sentinel.images(sol, camera)
     logger.info "Retrieved #{images.length} images"
 
-    erb :display, :locals => {:images => images}
+    erb :images, :locals => {:images => images}
 end

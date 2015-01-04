@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Curiosity Maps</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="/styles/map.css"/>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<%= apikey %>"></script>
+<script type="text/javascript" src="/scripts/map.js"></script>
+</head>
+
+<body>
+<div id="map"></div>
+<select onchange="maskMarkers()" id="cameras" class="cameras">
+    <option value="Mastcam">Mastcam</option>
+    <option value="FrontHazcam">Front Hazcam</option>
+    <option value="LeftNavcam">Left Navcam</option>
+    <option value="RearHazcam">Rear Hazcam</option>
+    <option value="RightNavcam">Right Navcam</option>
+</select>
+
+<script>
+    document.body.onload = function() {
+        initialize(<%= locations.to_json %>, <%= cameraCoverage.to_json %>);
+    };
+</script>
+</body>
+</html>

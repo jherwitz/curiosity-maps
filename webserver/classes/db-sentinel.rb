@@ -1,7 +1,7 @@
 require 'mysql'
 require 'date'
-require './rover-location'
-require './image'
+require './classes/rover-location'
+require './classes/image'
 
 # knows how to query tables
 # TODO: caching
@@ -17,6 +17,9 @@ class DatabaseSentinel
             "RearHazcam" => 1,
             "RightNavcam" => 1
         }
+        # TODO: wrap the mysql client with this instead
+        # TODO: ttl
+        @cache = {}
     end
 
     def positions()
@@ -29,7 +32,12 @@ class DatabaseSentinel
 
     # all rover locations we have data for
     def locations() 
-        results = @client.query("SELECT * FROM images.Location")
+        query = "SELECT * FROM images.Location"
+        unless (value = @cache[query]).nil?
+            return value
+        end
+
+        results = @client.query(query)
 
         locations = Array.new
         results.each_hash do |row|
@@ -40,23 +48,30 @@ class DatabaseSentinel
             locations.push(RoverLocation.new(sol, x, y, z))
         end
 
+        @cache[query] = locations
         return locations
     end
 
-    def lookupTable(camera) 
+    def coverage(camera) 
         if @tableNames[camera].nil?
             return []
         end
 
-        results = @client.query("SELECT sol FROM images.#{camera} GROUP BY sol")
-
-        lookupTable = Hash.new
-        results.each_hash do |row|
-            sol = row["sol"].to_i
-            lookupTable.store(sol, 1)
+        query = "SELECT sol FROM images.#{camera} GROUP BY sol"
+        unless (value = @cache[query]).nil?
+            return value
         end
 
-        return lookupTable
+        results = @client.query(query)
+
+        coverage = Hash.new
+        results.each_hash do |row|
+            sol = row["sol"].to_i
+            coverage.store(sol, 1)
+        end
+
+        @cache[query] = coverage
+        return coverage
     end
 
     # images taken by camera on sol
@@ -65,7 +80,11 @@ class DatabaseSentinel
             return []
         end     
 
-        results = @client.query("SELECT * FROM images.#{camera} WHERE sol = #{sol} ORDER BY timestamp")
+        query = "SELECT * FROM images.#{camera} WHERE sol = #{sol} ORDER BY timestamp"
+        unless (value = @cache[query]).nil?
+            return value
+        end
+        results = @client.query(query)
 
         images = Array.new
         results.each_hash do |row|
@@ -75,6 +94,7 @@ class DatabaseSentinel
             images.push(Image.new(row["imageUrl"], date, row["sol"], camera))
         end
 
+        @cache[query] = images
         return images
     end
 

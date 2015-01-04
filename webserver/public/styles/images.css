@@ -1,3 +1,9 @@
+/**
+ * This file contains stylesheets used by the image carousel.
+ *
+ * @see views/images.erb
+ */
+
 .images {
     max-width: 100%;
 }
