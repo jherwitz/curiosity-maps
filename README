@@ -40,3 +40,31 @@ voting system, to rank best/most interesting images (stetch, or something zach c
 Notice:
 
 Non-commercial, informational use only. All data and assets are property of NASA.
+
+Following tools:
+
+(Rover location)
+NASA open data sets 
+JPL cspice
+Google maps javascript v3 api
+MapTiler
+GIS maps
+
+(Rover images)
+NASA open data sets
+JSoup
+
+(Generic)
+RDS
+S3
+EC2
+Sinatra
+
+# gmaps markers:
+ # (1) set at location according to location data
+ # (2) set marker click/hover handler:
+ #     (i) load iframe
+ #     (ii) full screen (see view-source:http://www.julianherwitz.com/fathersday/fathersday.html)
+ # (3) create polyline path using marker lat/long as nodes %>
+
+ 

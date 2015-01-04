@@ -1,5 +1,6 @@
 require 'mysql'
 require 'date'
+require './rover-location'
 require './image'
 
 # knows how to query tables
@@ -22,6 +23,23 @@ class DatabaseSentinel
         return []
     end
 
+    # all rover locations we have data for
+    def locations() 
+        results = @client.query("SELECT * FROM images.Location")
+
+        locations = Array.new
+        results.each_hash do |row|
+            sol = row["sol"].to_i
+            x = row["x"].to_f
+            y = row["y"].to_f
+            z = row["z"].to_f
+            locations.push(RoverLocation.new(sol, x, y, z))
+        end
+
+        return locations
+    end
+
+    # images taken by camera on sol
     def images(sol, camera)
         if @tableNames[camera].nil?
             return []

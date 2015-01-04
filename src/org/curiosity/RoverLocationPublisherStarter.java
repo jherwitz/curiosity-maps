@@ -55,12 +55,12 @@ public class RoverLocationPublisherStarter {
             String[] parts = line.split(",");
             int sol = Integer.parseInt(parts[0].trim());
             String timestamp = parts[1].trim();
-            double x = Double.parseDouble(parts[1].trim());
-            double y = Double.parseDouble(parts[2].trim());
-            double z = Double.parseDouble(parts[2].trim());
+            double x = Double.parseDouble(parts[2].trim());
+            double y = Double.parseDouble(parts[3].trim());
+            double z = Double.parseDouble(parts[4].trim());
             return new RoverLocation(sol, x, y, z, timestamp);
         }).collect(Collectors.toList());
-        
+
         publisher.publishLocations(ImmutableList.copyOf(locations));
     }
 

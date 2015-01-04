@@ -4,6 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.curiosity.concept.Camera;
 import org.curiosity.concept.Image;
+import org.curiosity.concept.RoverLocation;
 
 import java.util.List;
 
@@ -26,5 +27,10 @@ public class SysOutPublisher implements Publisher {
             System.out.println("Images for camera " + cameraType.name() + ":");
             System.out.println(imagesByCamera.get(cameraType));
         });
+    }
+
+    @Override
+    public void publishLocations(List<RoverLocation> locations) {
+        throw new UnsupportedOperationException();
     }
 }
