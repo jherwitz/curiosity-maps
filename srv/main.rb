@@ -19,7 +19,14 @@ get '/' do
     locations = settings.sentinel.locations()
     logger.info "Retrieved locations for #{locations.length} martian days"
 
-    erb :map, :locals => {:apikey => settings.apikey, :locations => locations}
+    logger.info "Querying database for camera mask"
+    lookupTable = Hash.new
+    settings.sentinel.tableNames.keys.each do |camera|
+        lookupTable.store(camera, settings.sentinel.lookupTable(camera))
+    end
+    logger.info "Mask constructed"
+
+    erb :map, :locals => {:apikey => settings.apikey, :locations => locations, :lookupTable => lookupTable}
 end
 
 get '/images/:sol/:camera' do

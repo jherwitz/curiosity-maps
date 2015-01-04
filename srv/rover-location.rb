@@ -33,6 +33,6 @@ class RoverLocation
     # XXX: need to improve this projection method
     def convertCartesianOffsetToLatLng(x, y, z)
         ratio = 0.2236
-        return x * ratio, y * ratio
+        return -1 * z * ratio, -1 * y * ratio
     end
 end

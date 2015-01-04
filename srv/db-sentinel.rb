@@ -23,6 +23,10 @@ class DatabaseSentinel
         return []
     end
 
+    def tableNames()
+        return @tableNames
+    end
+
     # all rover locations we have data for
     def locations() 
         results = @client.query("SELECT * FROM images.Location")
@@ -37,6 +41,22 @@ class DatabaseSentinel
         end
 
         return locations
+    end
+
+    def lookupTable(camera) 
+        if @tableNames[camera].nil?
+            return []
+        end
+
+        results = @client.query("SELECT sol FROM images.#{camera} GROUP BY sol")
+
+        lookupTable = Hash.new
+        results.each_hash do |row|
+            sol = row["sol"].to_i
+            lookupTable.store(sol, 1)
+        end
+
+        return lookupTable
     end
 
     # images taken by camera on sol

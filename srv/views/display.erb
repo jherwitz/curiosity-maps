@@ -7,6 +7,9 @@
     </head>
 
     <body>
+
+    <div id="close" class="close"></div>
+
     <div class="images">
     <% images.each do |image| %>
         <div>
@@ -20,6 +23,24 @@
     <script type="text/javascript" src="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.min.js"></script>
 
     <script type="text/javascript">
+        // add frame controls if we're in an iframe
+        window.addEventListener("message", function(event){
+            // TODO: origin check
+            if(event.data === "open"){
+                console.log("received open");
+                document.getElementById("close").style.display = "block";
+            }
+        }, false);
+        $("#close").click(function() {
+            window.postMessage("close", "*");
+        });
+        $(document).keydown(function(e) {
+            // close on 'esc' press
+            if (e.keyCode == 27) { 
+                window.postMessage("close", "*");
+            }   
+        });
+
         $(document).ready(function(){
             // initialize carousel
             $('.images').slick({
@@ -30,7 +51,6 @@
                 touchThreshold: 25,
                 lazyLoad: 'ondemand'
             });
-            $('.slick-active').focus();
         });
     </script>
 
