@@ -22,7 +22,7 @@ var ns = {
     mapMinZoom: 6,
 
     // maximum zoom level. corresponds to image index (bucket in s3)
-    mapMaxZoom: 13,
+    mapMaxZoom: 14,
 
     mapInitZoom: 10,
 
