@@ -23,10 +23,11 @@
 
 .message {
     color: #606060;
+    font-family: Rockwell, “Courier Bold”, Courier, Georgia, Times, “Times New Roman”, serif;
 }
 
 .button {
-    opacity: 0.1 !important;
+    opacity: 0.25 !important;
 }
 
 body {

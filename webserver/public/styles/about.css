@@ -18,16 +18,21 @@
    font-size: 40px;
    font-family: Georgia, serif;
    text-decoration: none;
-   }
+}
 .button:hover {
    border-top-color: #28597a;
    background: #28597a;
    color: #ccc;
-   }
+}
 
 .message {
     color: #606060;
+    font-family: Rockwell, “Courier Bold”, Courier, Georgia, Times, “Times New Roman”, serif;
     font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 23px;
 }
 
 .image {

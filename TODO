@@ -1,15 +1,12 @@
 TODO
 
--FIX LOCATIONS
+-image loading gif
 -better map - we have the latlng coords so we should just be able to plug another GIS map in
--image resizing
--DB caching
 -get SSL working (need to migrate to route 53 - gonna b a pain. skip for now)
 -Tests
 -Documentation / code cleanup
 -sinatra logging
 -keyboard focus on popup
--use gmaps api key
 
-next phase:
+potential future work:
 get images for each time, in utc. then we can't use slider though :/

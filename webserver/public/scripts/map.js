@@ -182,9 +182,7 @@ function maskMarkers() {
     var camera = document.getElementById("cameras").value;
     var markers = ns.markers;
     for(var i=0; i<markers.length; i++) {
-        // could really just use i=sol, but lets do the object lookup just to be safe
         if(!ns.cameraCoverage[camera][markers[i].sol]) {
-            console.log("hiding marker " + i);
             markers[i].marker.setVisible(false);
         } else {
             markers[i].marker.setVisible(true);
