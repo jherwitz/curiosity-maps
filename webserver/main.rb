@@ -38,6 +38,9 @@ get '/images/:sol/:camera' do
 
     logger.info "Querying database for sol #{sol} and camera #{camera}"
     images = settings.sentinel.images(sol, camera)
+    if images.length == 0
+        status 404
+    end
     logger.info "Retrieved #{images.length} images"
 
     erb :images, :locals => {:images => images}

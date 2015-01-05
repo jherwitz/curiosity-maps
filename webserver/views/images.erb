@@ -10,6 +10,10 @@
 
     <div id="close" class="close"></div>
 
+    <% if images.length > 0  %>
+        <img class="snake" src="//s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/snake.gif"/>
+    <% end %>
+    
     <div class="images">
     <% images.each do |image| %>
         <div>
