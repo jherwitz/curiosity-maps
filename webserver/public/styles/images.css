@@ -48,8 +48,7 @@ body {
 
 .snake {
     position: fixed;
-    top: 50%;
-    margin-bottom: -50%;
+    top: 200px;
     left: 50%;
     margin-right: -50%;
     opacity: .3;
