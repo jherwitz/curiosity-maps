@@ -85,7 +85,18 @@ body {
 
 .cameras {
     position: absolute;
-    right: 20px;
-    top: 25px;
+    right: 80px;
+    top: 23px;
     z-index: 2147483647 !important;
+}
+
+.about {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    z-index: 2147483647 !important;
+    background: url('http://s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/abouticon.png') no-repeat;
+    cursor: pointer;
 }

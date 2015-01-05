@@ -14,7 +14,6 @@ configure do
 end
 
 get '/' do
-    # TODO: make this call once at startup, or peroidically
     logger.info "Querying database for rover location data"
     locations = settings.sentinel.locations()
     logger.info "Retrieved locations for #{locations.length} martian days"
@@ -27,6 +26,10 @@ get '/' do
     logger.info "Mask constructed"
 
     erb :map, :locals => {:apikey => settings.apikey, :locations => locations, :cameraCoverage => cameraCoverage}
+end
+
+get '/about' do
+    erb :about
 end
 
 get '/images/:sol/:camera' do

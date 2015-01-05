@@ -11,6 +11,7 @@
 
 <body>
 <div id="map"></div>
+<div id="about" class="about"></div>
 <select onchange="maskMarkers()" id="cameras" class="cameras">
     <option value="Mastcam">Mastcam</option>
     <option value="FrontHazcam">Front Hazcam</option>
@@ -21,6 +22,9 @@
 
 <script>
     document.body.onload = function() {
+        document.getElementById("about").onclick = function() {
+            window.open("/about");
+        };
         initialize(<%= locations.to_json %>, <%= cameraCoverage.to_json %>);
     };
 </script>
