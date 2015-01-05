@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.cli.*;
 import org.curiosity.concept.Camera;
 import org.curiosity.concept.Image;
-import org.curiosity.crawl.WebImageCrawler;
+import org.curiosity.crawl.ImageCrawler;
 import org.curiosity.publish.MySqlPublisher;
 import org.curiosity.publish.Publisher;
 import org.curiosity.publish.PublisherType;
@@ -13,7 +13,6 @@ import org.curiosity.publish.SysOutPublisher;
 import org.curiosity.util.DatabaseInvariants;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Set;
@@ -155,7 +154,7 @@ public class CuriosityImageCrawlerStarter {
         Preconditions.checkArgument(cameras != null && !cameras.isEmpty(), "cameras not null or empty");
         Preconditions.checkNotNull(publisher, "publisher not null");
 
-        WebImageCrawler crawler = new WebImageCrawler();
+        ImageCrawler crawler = new ImageCrawler();
 
         System.out.println("Starting image crawl...");
 

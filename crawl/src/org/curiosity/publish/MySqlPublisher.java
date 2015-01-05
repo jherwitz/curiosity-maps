@@ -87,25 +87,23 @@ public class MySqlPublisher implements Publisher {
 
     private String sqlFor(List<RoverLocation> locations) {
         List<String> tuples = locations.stream()
-                                       .map(location -> String.format("('%s', '%s', '%s', '%s', '%s')",
+                                       .map(location -> String.format("('%s', '%s', '%s', '%s')",
                                                                       location.sol(),
-                                                                      location.x(),
-                                                                      location.y(),
-                                                                      location.z(),
+                                                                      location.latitude(),
+                                                                      location.longitude(),
                                                                       location.timestamp()))
                                        .collect(Collectors.toList());
 
         StringBuilder builder = new StringBuilder();
 
         builder.append(String.format(
-                "INSERT INTO %s.%s (sol, x, y, z, timestamp)", DatabaseInvariants.databaseName(), DatabaseInvariants.locationTableName()))
+                "INSERT INTO %s.%s (sol, lat, lng, timestamp)", DatabaseInvariants.databaseName(), DatabaseInvariants.locationTableName()))
                .append("\n");
         builder.append("VALUES ").append(Joiner.on(",").join(tuples)).append("\n");
         builder.append("ON DUPLICATE KEY UPDATE").append("\n");
         builder.append("sol = VALUES(sol)").append(",\n");
-        builder.append("x = VALUES(x)").append(",\n");
-        builder.append("y = VALUES(y)").append(",\n");
-        builder.append("z = VALUES(z)").append(",\n");
+        builder.append("lat = VALUES(lat)").append(",\n");
+        builder.append("lng = VALUES(lng)").append(",\n");
         builder.append("timestamp = VALUES(timestamp)").append(";\n");
 
         return builder.toString();

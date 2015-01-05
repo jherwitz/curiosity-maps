@@ -8,7 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * A web crawler that returns the {@link ResponseHeader} for given uris.
+ * A header crawler that returns the {@link ResponseHeader} for given uris.
+ *
+ * {@link HeaderCrawler} is NOT a Web crawler, as it only deals with headers and not content.
  *
  * @author jherwitz
  */

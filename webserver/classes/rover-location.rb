@@ -1,6 +1,13 @@
 require 'json'
 
+#
+# RoverLocation represents a location of the Curiosity rover at a given sol. 
+#
 class RoverLocation
+
+    #
+    # Construct a new RoverLocation from Cartesian coordinates.
+    #
     def initialize(sol, x, y, z) 
         @sol = sol
         @lat, @lng = convertCartesianOffsetToLatLng(x, y, z)

@@ -1,9 +1,14 @@
 /*
- * Adapted from states.c in the cspice tookkit cookbook.
+ * Writes a set of latitudinal coordinates to the specified output file.
+ * Adapted from states.c in the cspice tookkit cookbook (cspice/src/cook_c/states.pgm).
+ *
+ * The executable takes a single argument - a file to write the processed location data to. 
+ * If the file does not exist, it will be created. If it does exist, it will be overriden. 
+ * The columns for the comma-separated location data are:
+ * 
+ *    time (sol), time (UTC), radius (km), lattidue (deg.), longitude (deg.)
+ *
  */
-
-
-/* Include needed headers. */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,7 +19,10 @@ int main(int argc, char *argv[])
    #define     FILE_SIZE 128
    #define     WORD_SIZE 80
 
-   SpiceDouble    state[6];
+   SpiceDouble    state[3];
+   SpiceDouble    radius;
+   SpiceDouble    latitude;
+   SpiceDouble    longitude;
    SpiceDouble    lt;
    SpiceDouble    et;
    SpiceDouble    etbeg;
@@ -40,17 +48,17 @@ int main(int argc, char *argv[])
 
    SpiceBoolean   cont;
 
-   char *         fout;
+   char *         fname;
    FILE *         fp;
 
-   fout = argv[1];
+   fname = argv[1];
 
    errprt_c ( "SET", 1024, "ALL"  );
    erract_c ( "SET", 1024, "REPORT" );
 
-   prompt_c ( "Enter the name of the metakernel file: ",
-                                                     FILE_SIZE, metakn  );
+   prompt_c ("Enter the name of the metakernel file: ", FILE_SIZE, metakn);
    puts (" ");
+
    /*
    Load the binary SPK file containing the ephemeris data
    that we need.
@@ -125,10 +133,7 @@ int main(int argc, char *argv[])
    puts( " " );
    prompt_c ( "Enter LT+S, LT, or NONE: ", WORD_SIZE, abcorr );
 
-   puts( " " );
-   puts( "Working ... Please wait" );
-   puts( " " );
-  
+   printf("Working...");  
 
    /*
    Convert the UTC time strings into DOUBLE PRECISION ETs.
@@ -171,10 +176,10 @@ int main(int argc, char *argv[])
    /*
    Open file for writing.
    */
-   fp = fopen(fout, "a");
+   fp = fopen(fname, "w");
    if (!fp){
       perror("Error opening file!");
-      perror(fout);
+      perror(fname);
       exit(1);
    }
 
@@ -187,16 +192,18 @@ int main(int argc, char *argv[])
    evaluates to true.
    */
    fprintf(fp, "target \"%s\", observer \"%s\", frame \"%s\"\n", targ, obs, frame);
-   fprintf(fp, "t (sol), t (UTC), x (km), y (km), z (km)\n");
+   fprintf(fp, "t (sol), t (UTC), radius(km), lattidue(deg.), longitude(deg.)\n");
    
 
    do
       {
+      printf(".");
+
       /*
       Compute the state of 'targ' from 'obs' at 'et' in the 'frame'
       reference frame and aberration correction 'abcorr'.
       */
-      spkezr_c ( targ, et, frame, abcorr, obs, state, &lt );
+      spkpos_c ( targ, et, frame, abcorr, obs, state, &lt );
 
       /*
       Convert the ET (ephemeris time) into a UTC time string
@@ -204,10 +211,15 @@ int main(int argc, char *argv[])
       */
       et2utc_c ( et, format, prec, WORD_SIZE, utc );
 
+      /**
+       * Convert Cartesian coordinates to latitudinal coordinates 
+       */
+      reclat_c( state, &radius, &latitude, &longitude);
+
       /* 
       Display the results of the state calculation.
       */
-      fprintf(fp, "%d, %s, %23.16e, %23.16e, %23.16e\n", sol, utc, state[0], state[1], state[2]);
+      fprintf(fp, "%d, %s, %23.16e, %23.16e, %23.16e\n", sol, utc, radius, latitude * dpr_c(), -1 * longitude * dpr_c());
 
       /*
       Increment the current et by delta and increment the loop
@@ -219,7 +231,8 @@ int main(int argc, char *argv[])
       }
    while ( sol < maxpts );
 
-
+   printf("completed!\n");
+   printf("Results written to %s\n", fname);
    fclose(fp);
 
    /* Finis */
