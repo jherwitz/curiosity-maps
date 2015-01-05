@@ -20,6 +20,10 @@ Start the server by running main.rb:
 
 *XXX: Remember to include the `-e production` Sinatra argument if you want to accept external requests!*
 
+Example server invocation:
+
+`sudo nohup ruby main.rb <JDBC> <DB_USER> <DB_PASS> <GMAPS_API_KEY> -p 80 -e production >> ~/logs/sinatra.log 2>&1 &`
+
 ## Location Estimation
 
 TODO: Describe how we convert db to lattitude and longitude.
