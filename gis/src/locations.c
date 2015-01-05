@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
       /* 
       Display the results of the state calculation.
       */
-      fprintf(fp, "%d, %s, %23.16e, %23.16e, %23.16e\n", sol, utc, radius, latitude * dpr_c(), -1 * longitude * dpr_c());
+      fprintf(fp, "%d, %s, %23.16e, %23.16e, %23.16e\n", sol, utc, radius, latitude * dpr_c(), longitude * dpr_c());
 
       /*
       Increment the current et by delta and increment the loop

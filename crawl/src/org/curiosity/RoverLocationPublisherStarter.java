@@ -55,8 +55,9 @@ public class RoverLocationPublisherStarter {
             String[] parts = line.split(",");
             int sol = Integer.parseInt(parts[0].trim());
             String timestamp = parts[1].trim();
-            double lat = Double.parseDouble(parts[2].trim());
+            // don't use radius field (index 2) for now
             double lng = Double.parseDouble(parts[3].trim());
+            double lat = Double.parseDouble(parts[4].trim());
             return new RoverLocation(sol, lat, lng, timestamp);
         }).collect(Collectors.toList());
 

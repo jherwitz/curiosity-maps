@@ -8,9 +8,10 @@ class RoverLocation
     #
     # Construct a new RoverLocation from Cartesian coordinates.
     #
-    def initialize(sol, x, y, z) 
+    def initialize(sol, lat, lng) 
         @sol = sol
-        @lat, @lng = convertCartesianOffsetToLatLng(x, y, z)
+        @lat = lat
+        @lng = lng
     end
 
     def to_json(*a)
@@ -31,15 +32,5 @@ class RoverLocation
 
     def lng
         return @lng
-    end
-
-    # based on the coordinate / linear distance ratio described in
-    # http://astrogeology.usgs.gov/maps/mars-science-laboratory-landing-site-selection
-    # we use the rough estimation of 1km ~ 0.2236º for calulcating rover offsets on this space.
-    #
-    # XXX: need to improve this projection method
-    def convertCartesianOffsetToLatLng(x, y, z)
-        ratio = 0.2236
-        return -1 * z * ratio, -1 * y * ratio
     end
 end

@@ -42,10 +42,9 @@ class DatabaseSentinel
         locations = Array.new
         results.each_hash do |row|
             sol = row["sol"].to_i
-            x = row["x"].to_f
-            y = row["y"].to_f
-            z = row["z"].to_f
-            locations.push(RoverLocation.new(sol, x, y, z))
+            lat = row["lat"].to_f
+            lng = row["lng"].to_f
+            locations.push(RoverLocation.new(sol, lat, lng))
         end
 
         @cache[query] = locations

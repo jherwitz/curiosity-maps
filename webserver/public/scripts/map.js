@@ -129,14 +129,13 @@ function newMapTiler() {
  * @return the added marker
  */
 function addRoverMarker(location) {
-    // determine rover position by calculating offset from landing site
-    var position = new google.maps.LatLng(ns.mslLandingSite.lat() + location.lat, ns.mslLandingSite.lng() + location.lng);
+    var position = new google.maps.LatLng(location.lat, location.lng);
 
     // construct marker and add to map
     var marker = new google.maps.Marker({
         position: position,
         map: ns.map,
-        title: "Sol <%=location.sol() %>"
+        title: "Sol " + location.sol
     });
 
     // prepare flyout on marker click
