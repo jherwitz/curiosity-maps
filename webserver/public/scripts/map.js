@@ -22,9 +22,9 @@ var ns = {
     mapMinZoom: 6,
 
     // maximum zoom level. corresponds to image index (bucket in s3)
-    mapMaxZoom: 14,
+    mapMaxZoom: 15,
 
-    mapInitZoom: 10,
+    mapInitZoom: 8,
 
     // rover landing site according to usgs. "MSL_LANDING_SITE" in spice
     mslLandingSite: new google.maps.LatLng(-4.490250, 137.419301),
@@ -140,25 +140,47 @@ function addRoverMarker(location) {
 
     // prepare flyout on marker click
     google.maps.event.addListener(marker, 'click', function() {
-        var iframe = document.createElement("iframe");
         var camera = document.getElementById("cameras").value;
-        iframe.src = "/images/"+ location.sol + "/" + camera;
-        iframe.className = "images";
-        iframe.onload = function() {
-            iframe.contentWindow.addEventListener("message", function(event) {
-                if(event.data === "close") {
-                    // it'll be http cached  anyways in case user wants to go back (and reload frame)
-                    iframe.parentNode.removeChild(iframe);
-                }
-            });
-            iframe.contentWindow.postMessage("open", "*");
-            iframe.style.display = "block";
-            iframe.contentWindow.focus();
-        }
+        var iframe = createFrame(location.sol, camera);
         document.body.appendChild(iframe);
     });
 
     return marker;
+}
+
+function createFrame(sol, camera) {
+    var iframe = document.createElement("iframe");
+    iframe.src = "/images/"+ sol + "/" + camera;
+    iframe.className = "images";
+    iframe.onload = function() {
+        iframe.contentWindow.addEventListener("message", function(event){
+            if(!event.data) {
+                return;
+            }
+
+            var message = JSON.parse(event.data);
+            if(message.type === "redirect") {
+                // redirect to a new frame
+
+                var camera = obj.camera;
+                var sol = obj.sol;
+                var newFrame = createFrame(sol, camera);
+
+                // swap frames
+                document.body.appendChild(newFrame);
+                iframe.parentNode.removeChild(iframe);
+
+
+            } else if(message.type === "close") {
+                // it'll be http cached  anyways in case user wants to go back (and reload frame)
+                iframe.parentNode.removeChild(iframe);
+            } 
+        });
+        iframe.contentWindow.postMessage(JSON.stringify({type: "open"}), "*");
+        iframe.style.display = "block";
+        iframe.contentWindow.focus();
+    }
+    return iframe;
 }
 
 /**

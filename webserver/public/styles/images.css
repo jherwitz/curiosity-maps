@@ -31,7 +31,7 @@
 }
 
 body {
-    background-color: #0c0c0c !important;
+    background-color: #0c0c0c;
 }
 
 .close {
@@ -44,6 +44,7 @@ body {
     cursor: pointer;
     display: none;
     opacity: 0.7;
+    right: 5px;
 }
 
 .snake {
@@ -53,3 +54,50 @@ body {
     margin-right: -50%;
     opacity: .3;
 }
+
+.slick-prev{
+    position: fixed;
+    left: 50px;
+    opacity: .5;
+}
+
+.slick-next{
+    position: fixed;
+    right: 50px;
+    opacity: .5;
+}
+
+.controls {
+    position: fixed;
+    left: 20px;
+    width: 170px;
+    height: 75px;
+    border-right: 2px solid #606060;
+    border-bottom: 2px solid #606060;
+    border-left: 2px solid #606060;
+    border-radius: 25px;
+    z-index: 2147483647 !important;
+    opacity: 0.75;
+}
+
+.controls .sol input{
+    width: 50px;
+    margin-left: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.controls .camera select {
+
+}
+.controls .sol {
+    padding-bottom: 10px;
+}
+
+.controls .message{
+    padding-bottom: 2px;
+    margin-left: 10px;
+    padding-bottom: 5px;
+}
+
+
