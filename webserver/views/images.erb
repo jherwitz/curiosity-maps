@@ -10,7 +10,7 @@
 
     <div id="close" class="close"></div>
 
-    <div class="controls">
+    <div class="controls <%= images.any? ? "hasimages" : "noimages" %>">
         <div class="message"> Change image set: </div>
         <div class="sol">
             <span class="message">Sol </span><input id="sol" type="text" value="<%= images.any? ? images[0].sol : 0 %>">

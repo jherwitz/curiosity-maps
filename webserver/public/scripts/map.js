@@ -24,7 +24,7 @@ var ns = {
     // maximum zoom level. corresponds to image index (bucket in s3)
     mapMaxZoom: 15,
 
-    mapInitZoom: 8,
+    mapInitZoom: 10,
 
     // rover landing site according to usgs. "MSL_LANDING_SITE" in spice
     mslLandingSite: new google.maps.LatLng(-4.490250, 137.419301),
@@ -162,8 +162,8 @@ function createFrame(sol, camera) {
             if(message.type === "redirect") {
                 // redirect to a new frame
 
-                var camera = obj.camera;
-                var sol = obj.sol;
+                var camera = message.camera;
+                var sol = message.sol;
                 var newFrame = createFrame(sol, camera);
 
                 // swap frames

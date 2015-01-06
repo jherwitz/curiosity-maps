@@ -24,6 +24,8 @@ Example server invocation:
 
 `sudo nohup ruby main.rb <JDBC> <DB_USER> <DB_PASS> <GMAPS_API_KEY> -p 80 -e production >> ~/logs/sinatra.log 2>&1 &`
 
+mv sinatra.log sinatra.log.$(date +%s)
+
 ## Location Estimation
 
 TODO: Describe how we convert db to lattitude and longitude.
