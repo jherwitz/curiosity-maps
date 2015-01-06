@@ -45,3 +45,8 @@ get '/images/:sol/:camera' do
 
     erb :images, :locals => {:images => images}
 end
+
+# before each request
+before do
+  expires 0, :public, :must_revalidate
+end
