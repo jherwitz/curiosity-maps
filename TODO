@@ -1,12 +1,12 @@
 TODO
 
--image loading gif
 -better map - we have the latlng coords so we should just be able to plug another GIS map in
 -get SSL working (need to migrate to route 53 - gonna b a pain. skip for now)
 -Tests
 -Documentation / code cleanup
--sinatra logging
 -keyboard focus on popup
+-mute button (quiets interface)
+-automate backend
 
 potential future work:
-get images for each time, in utc. then we can't use slider though :/
+get images for each time, in utc. look up time in cspice, plot. then we can't use slider though :/

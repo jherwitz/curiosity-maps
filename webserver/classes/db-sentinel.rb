@@ -1,4 +1,4 @@
-require 'mysql'
+require 'mysql2'
 require 'date'
 require './classes/rover-location'
 require './classes/image'
@@ -8,7 +8,7 @@ require './classes/image'
 class DatabaseSentinel
 
     def initialize(host, user, pass) 
-        @client = Mysql.new(host, user, pass)
+        @client = Mysql2::Client.new(:host => host, :username => user, :password => pass, :reconnect => true)
         # query hash for table name to prevent sql injection
         @tableNames = {
             "FrontHazcam" => 1,
@@ -40,7 +40,7 @@ class DatabaseSentinel
         results = @client.query(query)
 
         locations = Array.new
-        results.each_hash do |row|
+        results.each do |row|
             sol = row["sol"].to_i
             lat = row["lat"].to_f
             lng = row["lng"].to_f
@@ -64,7 +64,7 @@ class DatabaseSentinel
         results = @client.query(query)
 
         coverage = Hash.new
-        results.each_hash do |row|
+        results.each do |row|
             sol = row["sol"].to_i
             coverage.store(sol, 1)
         end
@@ -86,7 +86,7 @@ class DatabaseSentinel
         results = @client.query(query)
 
         images = Array.new
-        results.each_hash do |row|
+        results.each do |row|
             # remove milliseconds - ruby expects seconds
             epochTime = row["timestamp"].to_i / 1000
             date = DateTime.strptime(epochTime.to_s,'%s')

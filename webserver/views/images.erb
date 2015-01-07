@@ -8,9 +8,9 @@
 
     <body>
 
-    <div id="close" class="close"></div>
+    <div id="close" class="close quietable"></div>
 
-    <div class="controls <%= images.any? ? "hasimages" : "noimages" %>">
+    <div class="controls <%= images.any? ? "hasimages" : "noimages" %> quietable">
         <div class="message"> Change image set: </div>
         <div class="sol">
             <span class="message">Sol </span><input id="sol" type="text" value="<%= images.any? ? images[0].sol : 0 %>">
@@ -34,7 +34,7 @@
     <div class="images">
     <% images.each do |image| %>
         <div>
-            <img class="image" title="<%= image.timestamp.strftime("%m/%d/%Y at %I:%M%p UTC") %>" data-lazy="<%= image.imageUrl %>">
+            <img class="image" data-lazy="<%= image.imageUrl %>">
         </div>
     <% end %>
     </div>
@@ -77,6 +77,28 @@
             console.log("sol fired with: " + message);
             window.postMessage(message, "*");
         });
+
+        var fade;
+        $(document).mousemove(function(event) {
+            $(".quietable").fadeIn();
+            $(".slick-prev").fadeIn();
+            $(".slick-next").fadeIn();
+            $('html').css({
+                cursor: 'default'
+            });
+            if(fade) { clearTimeout(fade); }
+
+            fade = setTimeout(function() {
+                $(".quietable").fadeOut();
+                $(".slick-prev").fadeOut();
+                $(".slick-next").fadeOut();
+                $('html').css({
+                cursor: 'none'
+            });
+            }, 3000);
+        });
+
+
         $(document).ready(function(){
             // initialize carousel
             $('.images').slick({
@@ -87,6 +109,16 @@
                 lazyLoad: 'ondemand'
             });
         });
+
+
+        fade = setTimeout(function() {
+            $(".quietable").fadeOut();
+            $(".slick-prev").fadeOut();
+            $(".slick-next").fadeOut();
+            $('html').css({
+                cursor: 'none'
+            });
+        }, 3000);
     </script>
 
     <div class="footer">
