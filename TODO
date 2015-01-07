@@ -7,6 +7,7 @@ TODO
 -keyboard focus on popup
 -mute button (quiets interface)
 -automate backend
+-preload some images / paginate
 
 potential future work:
 get images for each time, in utc. look up time in cspice, plot. then we can't use slider though :/
