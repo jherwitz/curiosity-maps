@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
+ * Detects and removes low-resolution images from the database.
  *
  * @author jherwitz
  */
@@ -30,7 +31,10 @@ public class ThumbnailGarbageCollector {
         this.conn = Preconditions.checkNotNull(conn);
     }
 
-    public void collect(int startSol, Camera camera) {
+    /**
+     * GC all of {@code camera}'s low-resolution images from {@code startSol} onwards.
+     */
+    public void sweep(int startSol, Camera camera) {
         /**
          * First: Pull list of urls to test.
          */
@@ -49,7 +53,8 @@ public class ThumbnailGarbageCollector {
         }
 
         /**
-         * Second: Crawl each uri.
+         * Second: Get header for each uri.
+         *         If the content length is less than we require, remove the image from the database.
          */
         uris.stream().forEach(uri -> {
             ResponseHeader header = crawler.crawl(uri);
@@ -64,6 +69,9 @@ public class ThumbnailGarbageCollector {
         });
     }
 
+    /**
+     * Parse the database {@link ResultSet} for {@link URL}s to check.
+     */
     private List<URL> parseResultSet(ResultSet resultSet) throws SQLException {
         ImmutableList.Builder<URL> builder = ImmutableList.builder();
 
@@ -76,6 +84,9 @@ public class ThumbnailGarbageCollector {
         return builder.build();
     }
 
+    /**
+     * Remove {@code uri} from the database.
+     */
     private void removeFromDb(Camera camera, URL uri) throws SQLException {
         String sql = String.format("DELETE FROM %s.%s where imageUrl = \"%s\"",
                                    DatabaseInvariants.databaseName(),

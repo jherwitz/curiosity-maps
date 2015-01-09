@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * Reads the cspice-generated location data and publishes them to the database.
  *
  * @author jherwitz
  */

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
+ * Useful conversion methods.
  *
  * @author jherwitz
  */
@@ -27,6 +28,7 @@ public class Conversions {
     }
 
     public static Date fromUTC(String utc) {
+        // format used by the NASA image gallery
         DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 

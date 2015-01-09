@@ -4,6 +4,11 @@ import org.curiosity.concept.Camera;
 import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * Tests {@link ImageCrawler}.
+ *
+ * @author jherwitz
+ */
 public class ImageCrawlerTest {
 
     @Ignore

@@ -1,43 +1,50 @@
 package org.curiosity.crawl;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import org.curiosity.concept.Camera;
 import org.curiosity.concept.Image;
 import org.curiosity.util.Conversions;
-import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * An {@link ImageCrawler} pulls free use images from NASA's Curiosity image gallery.
  *
+ * @see WebCrawler
  * @author jherwitz
  */
 public class ImageCrawler extends WebCrawler {
 
     protected final String selector = "div.RawImageUTC";
 
+    /**
+     * Crawls NASA images for {@code sol} and {@code camera}.
+     */
     public List<Image> crawl(int sol, Camera camera) {
-        String imageListUri = generateImageListUri(sol, camera);
-        Document document = httpGet(Jsoup.connect(imageListUri)
+        String imageGalleryUri = generateImageGalleryUri(sol, camera);
+        Document document = httpGet(Jsoup.connect(imageGalleryUri)
                                          .timeout(imageListRequestTimeout)
                                          .header("User-Agent", spoofUserAgent));
         return parseImages(document, sol, camera);
     }
 
-    private String generateImageListUri(int sol, Camera camera) {
+    /**
+     * Generate the NASA image list url for the given {@code sol} and {@code camera}.
+     */
+    private String generateImageGalleryUri(int sol, Camera camera) {
         return String.format("http://%s?s=%d&camera=%s", root, sol, cameraSuffixes.get(camera));
     }
 
+    /**
+     * Parse the images contained in {@link Document}.
+     */
     private List<Image> parseImages(Document document, int sol, Camera camera) {
         Elements captions = document.select(selector);
 

@@ -7,17 +7,16 @@ import org.apache.commons.cli.Options;
 import org.curiosity.concept.Camera;
 import org.curiosity.crawl.HeaderCrawler;
 import org.curiosity.management.ThumbnailGarbageCollector;
-import org.curiosity.publish.PublisherType;
 import org.curiosity.util.DatabaseInvariants;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * Starter class for {@link ThumbnailGarbageCollector}.
  *
  * @author jherwitz
  */
@@ -48,7 +47,7 @@ public class ThumbnailGarbageCollectorStarter {
         });
 
         ThumbnailGarbageCollector gc = new ThumbnailGarbageCollector(HeaderCrawler.Instance, conn);
-        cameras.parallelStream().forEach(camera -> gc.collect(startSol, camera));
+        cameras.parallelStream().forEach(camera -> gc.sweep(startSol, camera));
     }
 
     private static Options options() {

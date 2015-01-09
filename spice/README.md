@@ -1,8 +1,6 @@
-# SPICE
-
 This directory contains the SPICE interface for Curiosity Maps.
 The rover's location is estimated by applying the [NAIF SPICE](http://naif.jpl.nasa.gov/naif/aboutspice.html) system
-to open NASA MSL kernels.
+to analyze NASA MSL kernels.
 
 ## Usage
 
@@ -33,18 +31,23 @@ An example session is as follows:
 > Enter the inertial reference frame (e.g.:J2000): IAU_MARS
  
 > Type of correction                              Type of state
+
 > -------------------------------------------------------------
+
 > 'LT+S'    Light-time and stellar aberration    Apparent state
+
 > 'LT'      Light-time only                      True state
+
 > 'NONE'    No correction                        Geometric state
  
 > Enter LT+S, LT, or NONE: LT+S
 
 > Working......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................completed!
+
 > Results written to spice/out/locations.csv
 
 
-For information on how these data are stored or used, see `crawl/README.md` or `webserver/README.md`.
+For information on how these data are stored or used, see `crawl/` or `webserver/` respectively.
 
 ## Resources
 

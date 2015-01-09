@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
+ * Static values and methods related to interfacing with the database.
  *
  * @author jherwitz
  */

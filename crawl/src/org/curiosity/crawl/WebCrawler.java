@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A {@link WebCrawler} is responsible for crawling Curiosity data.
+ * A {@link WebCrawler} is responsible for crawling Curiosity data on NASA's website.
+ *
+ * This mainly exists to be a container for {@link ImageCrawler} configuration (should use configuration file instead).
  *
  * @author jherwitz
  */
-public abstract class WebCrawler {
+public abstract class WebCrawler extends Crawler {
 
     protected final String root = "mars.jpl.nasa.gov/msl/multimedia/raw/";
     protected final Map<Camera, String> cameraSuffixes = ImmutableMap.of(Camera.FrontHazcam, "FHAZ_",

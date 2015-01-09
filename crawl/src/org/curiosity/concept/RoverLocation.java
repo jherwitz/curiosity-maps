@@ -9,8 +9,7 @@ import com.google.common.base.Preconditions;
  */
 public class RoverLocation {
 
-    // primary key
-    private final int sol;
+    private final int sol; // primary key
     private final double latitude;
     private final double longitude;
     private final String timestamp; // utc timestamp reported by spice

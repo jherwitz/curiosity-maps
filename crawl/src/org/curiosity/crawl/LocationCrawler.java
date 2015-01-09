@@ -14,16 +14,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Crawls Curiosity's location.
+ *
+ * XXX: Currently BROKEN as the location file contains bad data. (1/8/2015)
  *
  * @author jherwitz
  */
-public class LocationCrawler {
+public class LocationCrawler extends Crawler {
 
-    // use a file since Jsoup was having issues pulling the large xml over http
+    // XXX: use a file since JSoup was having issues pulling the large file over http
     private String locationsUri = "bin/locations.xml"; // http://mars.jpl.nasa.gov/msl-raw-images/locations.xml
 
+    /**
+     * Crawls the location file, returning a list of {@link RoverLocation}s.
+     */
     public List<RoverLocation> crawl() {
-        Document document = null;
+        Document document;
         try {
             document = Jsoup.parse(new File(locationsUri), "UTF-8");
         } catch (IOException e) {
@@ -32,6 +38,9 @@ public class LocationCrawler {
         return parseLocations(document);
     }
 
+    /**
+     * Parse the list of {@link RoverLocation}s from the retrieved {@code document}.
+     */
     private List<RoverLocation> parseLocations(Document document) {
         // only use the last location from each endSol
         Map<Integer, RoverLocation> roverLocations = new HashMap<>();

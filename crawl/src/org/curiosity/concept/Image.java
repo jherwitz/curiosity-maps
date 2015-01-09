@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.Date;
 
 /**
- * An image taken by one of Curiosity's cameras. Timestamped. Immutable.
+ * An image taken by one of Curiosity's cameras.
  *
  * @author jherwitz
  */

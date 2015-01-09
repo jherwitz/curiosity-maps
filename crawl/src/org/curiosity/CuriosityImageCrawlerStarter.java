@@ -22,6 +22,8 @@ import java.util.stream.IntStream;
 /**
  * Starter class for Curiosity rover image crawling.
  *
+ * See {@link #options} for command line options information.
+ *
  * @author jherwitz
  */
 public class CuriosityImageCrawlerStarter {
@@ -36,6 +38,9 @@ public class CuriosityImageCrawlerStarter {
         CommandLineParser cli = new BasicParser();
         Options options = options();
 
+        /**
+         * Parse command line args.
+         */
         CommandLine cmd = cli.parse(options, args);
 
         if (cmd.hasOption("h")) {
@@ -46,6 +51,9 @@ public class CuriosityImageCrawlerStarter {
             System.exit(0);
         }
 
+        /**
+         * Parse the crawl range.
+         */
         SolDelta solDelta = null;
         if (cmd.hasOption("s")) {
             String[] parts = cmd.getOptionValue("s").split(",");
@@ -61,6 +69,9 @@ public class CuriosityImageCrawlerStarter {
             fail(options.getOption("s"));
         }
 
+        /**
+         * Parse the {@link Camera}s to crawl.
+         */
         Set<Camera> cameras = null;
         if (cmd.hasOption("c")) {
             if (cmd.getOptionValues("c").length > 1) {
@@ -73,6 +84,9 @@ public class CuriosityImageCrawlerStarter {
             fail(options.getOption("c"));
         }
 
+        /**
+         * Parse the {@link Publisher} to use.
+         */
         Publisher publisher = null;
         if (cmd.hasOption("p")) {
             if (cmd.getOptionValues("p").length > 1) {
@@ -89,6 +103,10 @@ public class CuriosityImageCrawlerStarter {
                         System.err.println("Database values (user, pass, jdbc) not set");
                         fail(options);
                     }
+
+                    /**
+                     * Initialize the database connection.
+                     */
                     String username = cmd.getOptionValue("user");
                     String password = cmd.getOptionValue("pass");
                     String jdbc = cmd.getOptionValue("jdbc");
@@ -117,38 +135,9 @@ public class CuriosityImageCrawlerStarter {
         start(solDelta, cameras, publisher);
     }
 
-    private static Options options() {
-        Options options = new Options();
-
-        options.addOption("s",
-                          "sols",
-                          true,
-                          "The interval of sols to pull images for. Syntax: \" -s <START_SOL>,<END_SOL> \". Must be less than " + maxSol + ".");
-        options.addOption("c",
-                          "cameras",
-                          true,
-                          "Space-less commafied list of cameras to pull images for. Possible values: " + Arrays.toString(Camera.values()));
-        options.addOption("p", "publisher", true, "The publisher to report pulled images to. Possible values: " + Arrays.toString(PublisherType.values()));
-        options.addOption("h", "help", false, "Print help text. Supersedes other options.");
-
-        // the following options are applicable to
-        options.addOption("user", true, "Database username.");
-        options.addOption("pass", true, "Database password.");
-        options.addOption("jdbc", true, "JDBC connection url for the database");
-
-        return options;
-    }
-
-    private static void fail(Option o) {
-        System.err.println("Required option not properly specified: " + o);
-        System.exit(1);
-    }
-
-    private static void fail(Options o) {
-        System.err.println("Required options not properly specified: " + o);
-        System.exit(1);
-    }
-
+    /**
+     * Kick off the crawl and publish the results.
+     */
     private static void start(SolDelta solDelta, Set<Camera> cameras, Publisher publisher) {
         Preconditions.checkNotNull(solDelta, "solDelta not null");
         Preconditions.checkArgument(cameras != null && !cameras.isEmpty(), "cameras not null or empty");
@@ -173,6 +162,50 @@ public class CuriosityImageCrawlerStarter {
         System.out.println("Crawl completed!");
     }
 
+    /**
+     * Command line arguments for {@link CuriosityImageCrawlerStarter}.
+     */
+    private static Options options() {
+        Options options = new Options();
+
+        options.addOption("s",
+                          "sols",
+                          true,
+                          "The interval of sols to pull images for. Syntax: \" -s <START_SOL>,<END_SOL> \". Must be less than " + maxSol + ".");
+        options.addOption("c",
+                          "cameras",
+                          true,
+                          "Space-less commafied list of cameras to pull images for. Possible values: " + Arrays.toString(Camera.values()));
+        options.addOption("p", "publisher", true, "The publisher to report pulled images to. Possible values: " + Arrays.toString(PublisherType.values()));
+        options.addOption("h", "help", false, "Print help text. Supersedes other options.");
+
+        // the following options are applicable to
+        options.addOption("user", true, "Database username.");
+        options.addOption("pass", true, "Database password.");
+        options.addOption("jdbc", true, "JDBC connection url for the database");
+
+        return options;
+    }
+
+    /**
+     * Fatal due to a malformed {@link Option}.
+     */
+    private static void fail(Option o) {
+        System.err.println("Required option not properly specified: " + o);
+        System.exit(1);
+    }
+
+    /**
+     * Fatal due to malformed {@link Options}.
+     */
+    private static void fail(Options o) {
+        System.err.println("Required options not properly specified: " + o);
+        System.exit(1);
+    }
+
+    /**
+     * A delta of two sols. Used as a range to crawl.
+     */
     private static class SolDelta {
         private final int startSol;
         private final int endSol;

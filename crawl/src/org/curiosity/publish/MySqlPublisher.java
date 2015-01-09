@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * A {@link Publisher} that publishes to a MySql database.
  *
  * @author jherwitz
  */
@@ -47,6 +48,9 @@ public class MySqlPublisher implements Publisher {
 
     }
 
+    /**
+     * Generate the sql code for image insertion.
+     */
     private String sqlFor(Collection<Image> images, Camera camera) {
         // generate tuples to update
         List<String> tuples = images.stream().map(image -> {
@@ -85,6 +89,9 @@ public class MySqlPublisher implements Publisher {
         }
     }
 
+    /**
+     * Generate the sql code for location insertion.
+     */
     private String sqlFor(List<RoverLocation> locations) {
         List<String> tuples = locations.stream()
                                        .map(location -> String.format("('%s', '%s', '%s', '%s')",
@@ -110,13 +117,10 @@ public class MySqlPublisher implements Publisher {
     }
 
     private void put(String sql, String table) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement(sql);
-        try {
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
             int modifiedRows = statement.executeUpdate();
             System.out.println("Updated " + modifiedRows + "rows in table " + table);
             conn.commit();
-        } finally {
-            statement.close();
         }
     }
 
