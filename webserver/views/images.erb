@@ -1,15 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
+<head>
     <title>Curiosity image view</title>
     <link rel="stylesheet" type="text/css" href="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="/styles/images.css"/>
-    </head>
 
-    <body>
+    <script type="text/javascript" src="/scripts/images.js"></script>
+</head>
 
+<body>
     <div id="close" class="close quietable"></div>
-
     <div class="controls <%= images.any? ? "hasimages" : "noimages" %> quietable">
         <div class="message"> Change image set: </div>
         <div class="sol">
@@ -42,87 +42,9 @@
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="//s3-us-west-2.amazonaws.com/curiosity-maps/slick/slick.min.js"></script>
-
-    <script type="text/javascript">
-        // add frame controls if we're in an iframe
-        window.addEventListener("message", function(event){
-            if(!event.data){
-                return;
-            }
-
-            var message = JSON.parse(event.data);
-            // TODO: origin check
-            if(message.type === "open"){
-                document.getElementById("close").style.display = "block";
-            }
-        }, false);
-        $("#close").click(function() {
-            window.postMessage(JSON.stringify({type: "close"}), "*");
-        });
-        $(document).keydown(function(e) {
-            // close on 'esc' press
-            if (e.keyCode == 27) { 
-                window.postMessage(JSON.stringify({type: "close"}), "*");
-            }   
-        });
-        $(".controls .sol").keydown(function (e) {
-            if (e.keyCode == 13) {
-                var message = JSON.stringify({type: "redirect", sol: $("#sol").val(), camera: $("#camera").val()});
-                console.log("sol fired with: " + message);
-                window.postMessage(message, "*");
-            }
-        });
-        $(".controls .camera").change(function (e) {
-            var message = JSON.stringify({type: "redirect", sol: $("#sol").val(), camera: $("#camera").val()});
-            console.log("sol fired with: " + message);
-            window.postMessage(message, "*");
-        });
-
-        var fade;
-        $(document).mousemove(function(event) {
-            $(".quietable").fadeIn();
-            $(".slick-prev").fadeIn();
-            $(".slick-next").fadeIn();
-            $('html').css({
-                cursor: 'default'
-            });
-            if(fade) { clearTimeout(fade); }
-
-            fade = setTimeout(function() {
-                $(".quietable").fadeOut();
-                $(".slick-prev").fadeOut();
-                $(".slick-next").fadeOut();
-                $('html').css({
-                cursor: 'none'
-            });
-            }, 3000);
-        });
-
-
-        $(document).ready(function(){
-            // initialize carousel
-            $('.images').slick({
-                speed: 300,
-                infinite: true,
-                slidesToShow: 1,
-                touchThreshold: 25,
-                lazyLoad: 'ondemand'
-            });
-        });
-
-
-        fade = setTimeout(function() {
-            $(".quietable").fadeOut();
-            $(".slick-prev").fadeOut();
-            $(".slick-next").fadeOut();
-            $('html').css({
-                cursor: 'none'
-            });
-        }, 3000);
-    </script>
+    <script type="text/javascript" src="/scripts/images.js"></script>
 
     <div class="footer">
-
         <% if images.any?  %>
             <div class="message">
             Images taken by Curiosity on sol <span class="sollbl"><%= images[0].sol %></span> using camera <span class="cameralbl"><%= images[0].camera %>.</span>
@@ -144,5 +66,11 @@
         </div>
     </div>
 
-    </body>
+    <script>    
+    setup();
+    $(document).ready(function(){
+        initialize();
+    });
+    </script>
+</body>
 </html>

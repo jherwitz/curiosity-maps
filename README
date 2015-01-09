@@ -84,4 +84,13 @@ Enter the number of states to be calculated: 1
 
 2013-02-28T00:53:03
 
+ q  | r
+    |
+---------
+    |    
+ t  | s
+
+each is recursively split into four quadrents, addressed by next character
+base case: t
+
  

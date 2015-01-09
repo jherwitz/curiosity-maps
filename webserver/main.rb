@@ -1,5 +1,9 @@
 #!/usr/bin/ruby
 
+#
+# The webserver controller.
+#
+
 require 'rubygems'
 require 'sinatra'
 require './classes/db-sentinel'
@@ -9,10 +13,10 @@ configure do
     jdbc = ARGV[0]
     user = ARGV[1]
     pass = ARGV[2]
-    set :apikey, ARGV[3] # gmaps api key (although a clientside api key is sort-of pointless...)
     set :sentinel, DatabaseSentinel.new(jdbc, user, pass)
 end
 
+# the main map view
 get '/' do
     logger.info "Querying database for rover location data"
     locations = settings.sentinel.locations()
@@ -20,18 +24,20 @@ get '/' do
 
     logger.info "Querying database for camera mask"
     cameraCoverage = Hash.new
-    settings.sentinel.tableNames.keys.each do |camera|
+    settings.sentinel.cameraNames.keys.each do |camera|
         cameraCoverage.store(camera, settings.sentinel.coverage(camera))
     end
     logger.info "Mask constructed"
 
-    erb :map, :locals => {:apikey => settings.apikey, :locations => locations, :cameraCoverage => cameraCoverage}
+    erb :map, :locals => {:locations => locations, :cameraCoverage => cameraCoverage}
 end
 
+# the about page
 get '/about' do
     erb :about
 end
 
+# the image slider - usually iframed
 get '/images/:sol/:camera' do
     sol = params[:sol].to_i
     camera = params[:camera]
@@ -46,7 +52,7 @@ get '/images/:sol/:camera' do
     erb :images, :locals => {:images => images}
 end
 
-# before each request
+# before each request set cache-control header
 before do
   expires 0, :public, :must_revalidate
 end

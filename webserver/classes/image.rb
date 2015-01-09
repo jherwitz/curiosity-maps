@@ -1,7 +1,7 @@
 require 'json'
 
 #
-# Represents an image taken by Curiosity, using <em>camera</em> on <em>sol</em> at <em>timestamp</em>.
+# Image represents an image taken by Curiosity, using 'camera' on 'sol' at 'timestamp'.
 #
 class Image
     def initialize(imageUrl, timestamp, sol, camera) 

@@ -3,31 +3,32 @@ require 'date'
 require './classes/rover-location'
 require './classes/image'
 
-# knows how to query tables
-# TODO: caching
+#
+# The DatabaseSentinel is responsible for interfacing with the curiosity maps mysql database.
+#
+# All queries are read-only.
+#
 class DatabaseSentinel
 
     def initialize(host, user, pass) 
         @client = Mysql2::Client.new(:host => host, :username => user, :password => pass, :reconnect => true)
-        # query hash for table name to prevent sql injection
-        @tableNames = {
+        
+        # hash for table name to prevent sql injection
+        @cameraTableNames = {
             "FrontHazcam" => 1,
             "LeftNavcam" => 1,
             "Mastcam" => 1,
             "RearHazcam" => 1,
             "RightNavcam" => 1
         }
-        # TODO: wrap the mysql client with this instead
-        # TODO: ttl
+
+        # TODO: cache ttl
         @cache = {}
     end
 
-    def positions()
-        return []
-    end
-
-    def tableNames()
-        return @tableNames
+    # returns the names of all supported cameras
+    def cameraNames()
+        return @cameraTableNames
     end
 
     # all rover locations we have data for
@@ -51,8 +52,9 @@ class DatabaseSentinel
         return locations
     end
 
+    # returns a mapping of all the sols for which we have images for 'camera'.
     def coverage(camera) 
-        if @tableNames[camera].nil?
+        if @cameraTableNames[camera].nil?
             return []
         end
 
@@ -73,9 +75,9 @@ class DatabaseSentinel
         return coverage
     end
 
-    # images taken by camera on sol
+    # returns the images taken by 'camera' on 'sol'
     def images(sol, camera)
-        if @tableNames[camera].nil?
+        if @cameraTableNames[camera].nil?
             return []
         end     
 

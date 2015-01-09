@@ -1,7 +1,7 @@
 /**
- * This file contains stylesheets used by the image carousel.
+ * This file contains stylesheets used by the image view.
  *
- * @see views/images.erb
+ * @see http://curiosity-maps.org/images/<SOL>/<CAMERA>
  */
 
 .images {
@@ -68,7 +68,7 @@ body {
 
 .controls {
     position: fixed;
-    width: 175px;
+    width: 177px;
     height: 75px;
     border-right: 2px solid #606060;
     border-bottom: 2px solid #606060;
