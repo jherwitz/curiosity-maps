@@ -1,6 +1,6 @@
 # Webserver 
 
-This directory encapsualtes the webserver component of curiosity-maps, which is repsonsible for rendering 
+This directory encapsualtes the webserver component of Curiosity Maps, which is repsonsible for rendering 
 processed image and location data. The webserver is built on the [Sinatra](http://www.sinatrarb.com/) stack
 and makes use of the [Google Maps](https://developers.google.com/maps/documentation/javascript/) and 
 [Slick](http://kenwheeler.github.io/slick/) libraries for rendering.

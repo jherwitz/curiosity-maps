@@ -1,13 +1,9 @@
-TODO
 
--better map - we have the latlng coords so we should just be able to plug another GIS map in
--get SSL working (need to migrate to route 53 - gonna b a pain. skip for now)
--Tests
--Documentation / code cleanup
--keyboard focus on popup
--mute button (quiets interface)
--automate backend
--preload some images / paginate
-
-potential future work:
-get images for each time, in utc. look up time in cspice, plot. then we can't use slider though :/
+Add visible and elevation map types
+Find and remove remaining low-res images (see crawl/)
+Get data for recent sols
+Break java mysql inf into separate directory
+Automate spice and crawl
+Keyboard focus on iframe load
+Preload some images
+Display image location (look up image time in cspice)

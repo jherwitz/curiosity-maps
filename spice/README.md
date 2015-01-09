@@ -1,25 +1,24 @@
-# Geographic Information System
+# SPICE
 
-This directory contains the Geographic Information System (GIS) interface for curiosity-maps. 
+This directory contains the SPICE interface for Curiosity Maps.
 The rover's location is estimated by applying the [NAIF SPICE](http://naif.jpl.nasa.gov/naif/aboutspice.html) system
-to 
-
+to open NASA MSL kernels.
 
 ## Usage
 
 Build the executable:
 
-`gcc gis/src/locations.c -I ~/lib/cspice/include/ ~/lib/cspice/lib/cspice.a -lm -g -o bin/locations`
+`gcc spice/src/locations.c -I /path/to/lib/cspice/include/ /path/to/lib/cspice/lib/cspice.a -lm -g -o bin/locations`
 
 Run the executable:
 
-`bin/locations gis/out/locations.csv`
+`bin/locations spice/out/locations.csv`
 
 An example session is as follows:
 
-> $ bin/locations gis/out/locations.csv 
+> $ bin/locations spice/out/locations.csv 
 
-> Enter the name of the metakernel file: gis/kernels/metakernel.txt
+> Enter the name of the metakernel file: spice/kernels/metakernel.txt
  
 > Enter the name of the observing body: MARS
  
@@ -42,7 +41,7 @@ An example session is as follows:
 > Enter LT+S, LT, or NONE: LT+S
 
 > Working......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................completed!
-> Results written to gis/out/locations.csv
+> Results written to spice/out/locations.csv
 
 
 For information on how these data are stored or used, see `crawl/README.md` or `webserver/README.md`.

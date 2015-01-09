@@ -1,6 +1,7 @@
 \begintext
     
     Kernels required for state extraction.
+    Depends on kernels located at http://naif.jpl.nasa.gov/pub/naif/pds/data/msl-m-spice-6-v1.0/mslsp_1000/.
 
 \begindata
 

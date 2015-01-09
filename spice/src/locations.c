@@ -1,13 +1,14 @@
 /*
  * Writes a set of latitudinal coordinates to the specified output file.
- * Adapted from states.c in the cspice tookkit cookbook (cspice/src/cook_c/states.pgm).
  *
- * The executable takes a single argument - a file to write the processed location data to. 
- * If the file does not exist, it will be created. If it does exist, it will be overriden. 
+ * The executable takes a single command line argument - a file to write the processed location data to. 
+ * If the file doesn't exist it will be created, if it does it will be overriden. 
+ *
  * The columns for the comma-separated location data are:
  * 
- *    time (sol), time (UTC), radius (km), lattidue (deg.), longitude (deg.)
+ *    time (sol), time (UTC), radius (km), latitude (deg.), longitude (deg.)
  *
+ * Adapted from states.c of the cspice cookbook (cspice/src/cook_c/states.pgm).
  */
 
 #include <stdlib.h>
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 
    SpiceBoolean   cont;
 
-   char *         fname;
+   char *         fname; // filename of output file
    FILE *         fp;
 
    fname = argv[1];
@@ -60,65 +61,55 @@ int main(int argc, char *argv[])
    puts (" ");
 
    /*
-   Load the binary SPK file containing the ephemeris data
-   that we need.
-   */
+    * Load the binary SPK file containing the ephemeris data that we need.
+    */
    furnsh_c ( metakn  );
 
-
-   prompt_c ( "Enter the name of the observing body: ",
-                                                      WORD_SIZE, obs );
+   prompt_c ( "Enter the name of the observing body: ", WORD_SIZE, obs );
    puts (" ");
    prompt_c ( "Enter the name of a target body: ",  WORD_SIZE, targ  );
-
    puts (" ");
 
 
-   /* Query for the number of state outputs, then loop. */
-   do
-      {
+   /* 
+    * Query for the number of state outputs, then loop.
+    */ 
+   do {
       prompt_c( "Enter the number of states to be calculated: ",
                                                      WORD_SIZE, line );
       prsint_c ( line, &maxpts );
       puts( " " );
 
       /*
-      Check for a nonsensical input for the number of
-      look ups to perform. 
-      */
-      if ( maxpts <= 0 )
-         {
+       * Check for a nonsensical input for the number of look ups to perform. 
+       */
+      if ( maxpts <= 0 ) {
          puts( "The number of states must be greater than 0.");
          puts( " " );
-         }
- 
       }
-   while ( maxpts <= 0 );
+ 
+   } while ( maxpts <= 0 );
 
 
-   /* Query for the time interval. */
-   if ( maxpts == 1 )
-      {
+   /* 
+    * Query for the time interval. 
+    */
+   if ( maxpts == 1 )  {
       prompt_c ( "Enter the UTC time: ", WORD_SIZE, utcbeg );
       puts(" ");
-      }
-   else
-      {
+   } else {
       prompt_c ( "Enter the beginning UTC time: ", WORD_SIZE, utcbeg );
       puts(" ");
-
       prompt_c ( "Enter the ending UTC time: ",    WORD_SIZE, utcend );
       puts(" ");
-      }
+   }
 
-   prompt_c ( "Enter the inertial reference frame (e.g.:J2000): ",
-                                                  WORD_SIZE, frame );
+   prompt_c ( "Enter the inertial reference frame (e.g.:J2000): ", WORD_SIZE, frame );
    puts( " ");
- 
 
    /*
-   Output a banner for the aberration correction prompt.
-   */
+    * Output a banner for the aberration correction prompt.
+    */
    printf( "Type of correction                          "   );
    printf( "    Type of state\n"                            );
    printf( "-----------------------------------------------");
@@ -129,44 +120,34 @@ int main(int argc, char *argv[])
    printf( "    True state\n"                               );
    printf( "\'NONE\'    No correction                    "  );
    printf( "    Geometric state\n");
-
    puts( " " );
    prompt_c ( "Enter LT+S, LT, or NONE: ", WORD_SIZE, abcorr );
-
    printf("Working...");  
 
    /*
-   Convert the UTC time strings into DOUBLE PRECISION ETs.
-   */
-   if ( maxpts == 1 )
-      {
+    * Convert the UTC time strings into DOUBLE PRECISION ETs.
+    */
+   if ( maxpts == 1 ) {
       str2et_c ( utcbeg, &etbeg );
-      }
-   else
-      {
+   }
+   else {
       str2et_c ( utcbeg, &etbeg );
       str2et_c ( utcend, &etend );
-      }
+   }
 
    /*
-   At each time, compute and print the state of the target body
-   as seen by the observer.  The output time will be in calendar
-   format, rounded to the nearest seconds.
+    * At each time, compute and write to file the state of the target body as seen by the observer.  
+    *
+    * The output time will be in calendar format, rounded to the nearest seconds.
+    */
 
-   delta is the increment between consecutive times.
-
-   Make sure that the number of points is >= 1, to avoid a
-   division by zero error.
-   */
-
-   if ( maxpts > 1 )
-      {
+   // Make sure that the number of points is >= 1, to avoid a division by zero error.
+   if ( maxpts > 1 ) {
+      // calculate increment between consecutive times
       delta  = ( etend - etbeg ) / ( (SpiceDouble) maxpts - 1.);
-      }
-   else
-      {
+   } else {
       delta = 0.0;
-      }
+   }
 
 
    /* Initialize control variable for the spkezr_c loop. */
@@ -174,23 +155,22 @@ int main(int argc, char *argv[])
    sol    = 0;
 
    /*
-   Open file for writing.
-   */
+    * Open file for writing.
+    */
    fp = fopen(fname, "w");
-   if (!fp){
+
+   // fatal if we can't open file
+   if (!fp) {
       perror("Error opening file!");
       perror(fname);
       exit(1);
    }
 
    /*
-   Perform the state look ups for the number of requested 
-   intervals. The loop continues so long as the expression:
-
-            i <= maxpts  &&  cont == SPICETRUE
-
-   evaluates to true.
-   */
+    * Perform the state look ups for the number of requested  intervals. 
+    * 
+    * Can be cancelled by lowering SPICETRUE flag.
+    */
    fprintf(fp, "target \"%s\", observer \"%s\", frame \"%s\"\n", targ, obs, frame);
    fprintf(fp, "t (sol), t (UTC), radius(km), lattidue(deg.), longitude(deg.)\n");
    
@@ -200,31 +180,28 @@ int main(int argc, char *argv[])
       printf(".");
 
       /*
-      Compute the state of 'targ' from 'obs' at 'et' in the 'frame'
-      reference frame and aberration correction 'abcorr'.
-      */
+       * Compute the state of 'targ' from 'obs' at 'et' in the 'frame' reference frame and aberration correction 'abcorr'.
+       */
       spkpos_c ( targ, et, frame, abcorr, obs, state, &lt );
 
       /*
-      Convert the ET (ephemeris time) into a UTC time string
-      for displaying on the screen.
-      */
+       * Convert the ET (ephemeris time) into a UTC time string for displaying on the screen.
+       */
       et2utc_c ( et, format, prec, WORD_SIZE, utc );
 
-      /**
-       * Convert Cartesian coordinates to latitudinal coordinates 
+      /*
+       * Convert Cartesian (rectangular) coordinates to latitudinal coordinates.
        */
       reclat_c( state, &radius, &latitude, &longitude);
 
       /* 
-      Display the results of the state calculation.
-      */
+       * Write the results of the state calculation.
+       */
       fprintf(fp, "%d, %s, %23.16e, %23.16e, %23.16e\n", sol, utc, radius, latitude * dpr_c(), longitude * dpr_c());
 
       /*
-      Increment the current et by delta and increment the loop
-      counter to mark the next cycle.
-      */
+       * Increment the current et by delta and increment the loop counter to mark the next cycle.
+       */
       et = et + delta;
       sol = sol + 1;
 
