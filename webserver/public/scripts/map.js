@@ -20,7 +20,7 @@ var ns = {
                         new google.maps.LatLng(-5.991029, 135.918796), new google.maps.LatLng(-2.989471, 138.919805)),
 
     // minimum zoom level. used to locate tile assets.
-    mapMinZoom: 1,
+    mapMinZoom: 3,
 
     // maximum zoom level. used to locate tile assets.
     mapMaxZoom: 15,
@@ -120,7 +120,7 @@ function newMapTiler() {
 }
 
 /*
- * Handles the zoom = 1 edge case.
+ * Handles wrapping at the map edges.
  */ 
 function getHorizontallyRepeatingTileUrl(coord, zoom, urlfunc) {
     var y = coord.y,
