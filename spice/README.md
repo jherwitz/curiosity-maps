@@ -1,3 +1,5 @@
+# Spice
+
 This directory contains the SPICE interface for Curiosity Maps.
 The rover's location is estimated by applying the [NAIF SPICE](http://naif.jpl.nasa.gov/naif/aboutspice.html) system
 to analyze NASA MSL kernels.

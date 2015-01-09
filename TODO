@@ -3,7 +3,8 @@ Add visible and elevation map types
 Find and remove remaining low-res images (see crawl/)
 Get data for recent sols
 Break java mysql inf into separate directory
-Automate spice and crawl
+Java and C build scripts
+Automate rover data collection (JNI?)
 Keyboard focus on iframe load
 Preload some images
 Display image location (look up image time in cspice)
