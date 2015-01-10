@@ -26,7 +26,7 @@ var ns = {
     mapMaxZoom: 15,
 
     // intiial zoom
-    mapInitZoom: 10,
+    mapInitZoom: 11,
 
     // rover landing site according to http://en.wikipedia.org/wiki/Curiosity_rover.
     // aka "Bradbury Landing"
