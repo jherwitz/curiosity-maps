@@ -5,3 +5,5 @@ This repository contains code powering [Curiosity Maps](http://www.curiosity-map
 * `webserver/` - a [Sinatra](http://www.sinatrarb.com/) frontend visualizer.
 
 The end result - an interactive Martian map with markers enabling access to the tens of thousands of high-resolution photographs Curiosity has taken thus far.
+
+Suggestions/Comments/Pull requests welcome!
