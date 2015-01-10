@@ -14,10 +14,10 @@ ThumbnailGarbageCollectorStarter.java - detects and removes low-resolution image
 
 ## Dependencies
 
-[JSoup](http://jsoup.org/) (1.8.1)
-[Guava](https://github.com/google/guava) (18.0)
-[JUnit](http://junit.org/) (4.11)
-[Hamcrest](http://hamcrest.org/) (1.3)
-[Apache Commons CLI](http://commons.apache.org/proper/commons-cli/) (1.2)
-[Apache Commons Lang](http://commons.apache.org/proper/commons-lang/) (2.6)
-[MySql Connector](http://dev.mysql.com/downloads/connector/j/) (5.1.34)
+- [JSoup](http://jsoup.org/) (1.8.1)
+- [Guava](https://github.com/google/guava) (18.0)
+- [JUnit](http://junit.org/) (4.11)
+- [Hamcrest](http://hamcrest.org/) (1.3)
+- [Apache Commons CLI](http://commons.apache.org/proper/commons-cli/) (1.2)
+- [Apache Commons Lang](http://commons.apache.org/proper/commons-lang/) (2.6)
+- [MySql Connector](http://dev.mysql.com/downloads/connector/j/) (5.1.34)

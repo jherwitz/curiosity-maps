@@ -1,11 +1,11 @@
 
-Add visible and elevation map types
-Find and remove remaining low-res images (see crawl/)
-Get data for recent sols
-Implement proper js closures
-Break java mysql inf into separate directory
+Find and remove any remaining low-res images (see crawl/)
+Get data for recent sols (>707)
+Implement proper js style (e.g., closures)
+Break java mysql inf into separate package
 Java and C build scripts
 Automate rover data collection (JNI?)
+Add elevation map type
 Keyboard focus on iframe load
 Preload some images
-Display image location (look up image time in cspice)
+Display actual image location on map (look up gallery's image time in cspice)

@@ -3,11 +3,11 @@
 This directory encapsualtes the webserver component of Curiosity Maps, which is repsonsible for rendering 
 processed image and location data. The webserver is built on the [Sinatra](http://www.sinatrarb.com/) stack
 and makes use of the [Google Maps](https://developers.google.com/maps/documentation/javascript/) and 
-[Slick](http://kenwheeler.github.io/slick/) libraries for rendering.
+[Slick](http://kenwheeler.github.io/slick/) libraries for rendering. 
 
 ## Usage
 
-This section assumes that database has been populated as detailed in `crawl/README.md`.
+This section assumes that database has been populated by `crawl/`.
 
 First install ruby and the necessary gems - sinatra and mysql2 are required. 
 
