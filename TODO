@@ -2,6 +2,7 @@
 Add visible and elevation map types
 Find and remove remaining low-res images (see crawl/)
 Get data for recent sols
+Implement proper js closures
 Break java mysql inf into separate directory
 Java and C build scripts
 Automate rover data collection (JNI?)

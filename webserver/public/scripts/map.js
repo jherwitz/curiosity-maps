@@ -51,10 +51,17 @@ function initialize(locations, cameraCoverage) {
     }
 
     // construct map and set globals
-    var map = newMap();
-    var maptiler = newMapTiler();
+    
+    var visible = newMapType("visible");
+    var infrared = newMapType("infrared")
+    var mapTypeIds = ["visible", "infrared"];
+    
+    var map = newMap(mapTypeIds);
+
+    map.mapTypes.set("visible", visible);
+    map.mapTypes.set("infrared", infrared);
+
     var path = [];
-    map.mapTypes.set('maptiler', maptiler);
     ns.map = map;
     ns.cameraCoverage = cameraCoverage;
 
@@ -77,42 +84,50 @@ function initialize(locations, cameraCoverage) {
 /**
  * Constructs a new google map.
  */
-function newMap() {
+function newMap(mapTypeIds) {
     var opts = {
         streetViewControl: false,
-        mapTypeId: 'maptiler',
         backgroundColor: "rgb(0,0,0)",
         center: ns.mslLandingSite,
+        mapTypeId: "visible",
         zoom: ns.mapInitZoom,
         scaleControl: true,
         mapTypeControlOptions: {
-            mapTypeIds: []
-        },
-    }
+            mapTypeIds: mapTypeIds,
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+            position: google.maps.ControlPosition.BOTTOM_CENTER
+        }
+    };
     return new google.maps.Map(document.getElementById("map"), opts);
 }
 
 /**
- * Creates a custom map tiler implementing the ImageMapType interface.
+ * Creates a custom map type implementing the ImageMapType interface.
  *
  * Derived from http://hirise.lpl.arizona.edu/js/google-map-types.js.
  */
-function newMapTiler() {
+function newMapType(spectrum) {
     return new google.maps.ImageMapType({
         getTileUrl: function (coord, zoom) {
             // google tiles only exist for zoom levels 1-9, so use our custom tiles for anything further in
             if(zoom < 10){
                 return getHorizontallyRepeatingTileUrl(coord, zoom, function (coord, zoom) {
-                    return getLowZoomMarsTileUrl("http://mw1.google.com/mw-planetary/mars/infrared/", coord, zoom);
+                    return getLowZoomMarsTileUrl("http://mw1.google.com/mw-planetary/mars/"+ spectrum +"/", coord, zoom);
                 });
             } else {
-                 return getHighZoomMarsTileUrl("https://s3-us-west-2.amazonaws.com/curiosity-maps-assets/", coord, zoom);
+                // I uploaded the infrared set of images to the root directory by mistake
+                // due to the required reupload time fixing the path structure will be a TODO
+                if(spectrum === "visible"){
+                    return getHighZoomMarsTileUrl("https://s3-us-west-2.amazonaws.com/curiosity-maps-assets/tiles/visible/", coord, zoom);
+                } else {
+                    return getHighZoomMarsTileUrl("https://s3-us-west-2.amazonaws.com/curiosity-maps-assets/", coord, zoom);
+                }
             }
         },
         tileSize: new google.maps.Size(256, 256),
         isPng: false,
-        name: "Mars (Visible)",
-        alt: "Mars (Visible)",
+        name: spectrum,
+        alt: spectrum,
         minZoom: ns.mapMinZoom,
         maxZoom: ns.mapMaxZoom,
         credit: 'Image Credit: NASA/JPL/ASU/MSSS'
