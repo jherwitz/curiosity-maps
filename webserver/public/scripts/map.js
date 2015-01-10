@@ -95,7 +95,7 @@ function newMap(mapTypeIds) {
         mapTypeControlOptions: {
             mapTypeIds: mapTypeIds,
             style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-            position: google.maps.ControlPosition.BOTTOM_CENTER
+            position: google.maps.ControlPosition.TOP_LEFT
         }
     };
     return new google.maps.Map(document.getElementById("map"), opts);

@@ -93,9 +93,10 @@ body {
     text-align: center;
 }
 
-.controls .camera select {
-
+.cameras {
+    background: white;
 }
+
 .controls .sol {
     padding-bottom: 10px;
 }
@@ -104,4 +105,8 @@ body {
     padding-bottom: 2px;
     margin-left: 10px;
     padding-bottom: 5px;
+}
+
+.controls:hover, .close:hover, .slick-prev:hover, .slick-next:hover {
+    opacity: 1;
 }

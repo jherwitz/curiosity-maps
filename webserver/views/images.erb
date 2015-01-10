@@ -17,12 +17,12 @@
        </div>
        <div class="camera">
             <span class="message">Cam </span>
-            <select id="camera" class="cameras">
-                <option value="Mastcam">Mastcam</option>
+            <select id="cameras" class="cameras">
                 <option value="FrontHazcam">Front Hazcam</option>
                 <option value="LeftNavcam">Left Navcam</option>
                 <option value="RearHazcam">Rear Hazcam</option>
                 <option value="RightNavcam">Right Navcam</option>
+                <option value="Mastcam">Mastcam</option>
             </select>
        </div>
     </div>
@@ -61,15 +61,12 @@
         <div class="message">
             Location and image data courtesy NASA/JPL-Caltech. For more information, see the <a href="http://www.jpl.nasa.gov/imagepolicy/">JPL Image Use Policy</a> and the <a href="http://data.nasa.gov/about/">Open NASA Project</a>.
         </div>
-        <div class="message">
-            See more on <a href="http://www.github.com/jherwitz">Github</a>. (Soon!)
-        </div>
     </div>
 
     <script>    
     setup();
     $(document).ready(function(){
-        initialize();
+        initialize('<%= images.any? ? images[0].camera : "FrontHazcam" %>');
     });
     </script>
 </body>

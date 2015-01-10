@@ -37,6 +37,11 @@ body {
     right: 10px; 
     bottom: 15px; 
     overflow: auto; 
+    border-style: none !important;
+    top: 0px !important;
+    right: 0px !important;
+    bottom: 0px !important;
+    left: 0px !important;
 }
 
 #footer { 
@@ -85,18 +90,37 @@ body {
 
 .cameras {
     position: absolute;
-    right: 80px;
-    top: 23px;
+    left: 215px;
+    height: 18px;
+    top: 5px;
     z-index: 2147483647 !important;
+    background: white;
 }
 
 .about {
     width: 32px;
     height: 32px;
     position: absolute;
-    right: 30px;
+    right: 15px;
     top: 15px;
     z-index: 2147483647 !important;
-    background: url('http://s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/abouticon.png') no-repeat;
+    background: url('https://s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/whitequestionmark.png') no-repeat;
     cursor: pointer;
+    opacity: .75;
+}
+
+.github {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 55px;
+    top: 15px;
+    z-index: 2147483647 !important;
+    background: url('http://s3-us-west-2.amazonaws.com/curiosity-maps-assets/icons/GitHub-Mark-Light-32px.png') no-repeat;
+    cursor: pointer;
+    opacity: .75;
+}
+
+.about:hover, .github:hover {
+    opacity: 1;
 }

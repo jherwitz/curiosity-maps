@@ -13,18 +13,23 @@
 <body>
     <div id="map"></div>
     <div id="about" class="about"></div>
+    <div id="github" class="github"></div>
     <select onchange="maskMarkers()" id="cameras" class="cameras">
-        <option value="Mastcam">Mastcam</option>
         <option value="FrontHazcam">Front Hazcam</option>
         <option value="LeftNavcam">Left Navcam</option>
         <option value="RearHazcam">Rear Hazcam</option>
         <option value="RightNavcam">Right Navcam</option>
+        <option value="Mastcam">Mastcam</option>
     </select>
+
 
     <script>
         document.body.onload = function() {
             document.getElementById("about").onclick = function() {
                 window.open("/about");
+            };
+            document.getElementById("github").onclick = function() {
+                window.open("//github.com/jherwitz/curiosity-maps");
             };
             initialize(<%= locations.to_json %>, <%= cameraCoverage.to_json %>);
         };

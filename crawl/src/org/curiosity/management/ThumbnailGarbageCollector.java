@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ThumbnailGarbageCollector {
 
-    private final static long fullSizeLength = 10000;
+    private final static long fullSizeRequirement = 50000;
 
     private final HeaderCrawler crawler;
     private final Connection conn;
@@ -58,8 +58,8 @@ public class ThumbnailGarbageCollector {
          */
         uris.stream().forEach(uri -> {
             ResponseHeader header = crawler.crawl(uri);
-            if (header.contentLength() < fullSizeLength) {
-                System.out.printf("Removing url %s: content length %s < %s (threshold) \n", uri.toExternalForm(), header.contentLength(), fullSizeLength);
+            if (header.contentLength() < fullSizeRequirement) {
+                System.out.printf("Removing url %s: content length %s < %s (threshold) \n", uri.toExternalForm(), header.contentLength(), fullSizeRequirement);
                 try {
                     removeFromDb(camera, uri);
                 } catch (SQLException e) {

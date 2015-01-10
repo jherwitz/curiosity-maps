@@ -28,7 +28,7 @@ function setup() {
 /**
  * Initializes the slider and kicks off auto-fade.
  */
-function initialize() {
+function initialize(initialCamera) {
     if(ns.initialized) {
         return;
     }
@@ -51,6 +51,9 @@ function initialize() {
             cursor: 'none'
         });
     }, 3000);
+
+    // set initial camera option to this camera
+    $("#cameras").val(initialCamera);
 
     ns.initialized = true;
 }
@@ -93,12 +96,12 @@ function addUIResponsiveness() {
     // this will close the current iframe and open the requested iframe
     $(".controls .sol").keydown(function (e) {
         if (e.keyCode == 13) {
-            var message = JSON.stringify({type: "redirect", sol: $("#sol").val(), camera: $("#camera").val()});
+            var message = JSON.stringify({type: "redirect", sol: $("#sol").val(), camera: $("#cameras").val()});
             window.postMessage(message, "*");
         }
     });
     $(".controls .camera").change(function (e) {
-        var message = JSON.stringify({type: "redirect", sol: $("#sol").val(), camera: $("#camera").val()});
+        var message = JSON.stringify({type: "redirect", sol: $("#sol").val(), camera: $("#cameras").val()});
         window.postMessage(message, "*");
     });
 
